@@ -4,7 +4,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var BYCversion = [2,6]; 
+var BYCversion = [2,6,1]; 
 /*jshint -W018*/ /*jshint -W086*/ /*jshint -W014*/ /*jshint -W117*/ /* TODO: deal with bouncing options (just change context, don't remove and add) */ /*TODO: Major Victory CO */ 
 /*var module = "";var alertify = "";*/
 /*var alert = "";var confirm = "";var prompt = ""; var document = "";*/
@@ -23996,7 +23996,7 @@ function gameSetup2() {
 	if(!z.hasOwnProperty("superCrisisDiscards")){
 		z.superCrisisDiscards = [];
 	}
-	if(!z.colonialOneDestroyed){
+	if(!z.colonialOneDestroyed && !z.superCrisisDiscards.includes(j)){
 		z.superCrisisDeck.push(160);
 	}
 	for(let j = 161; !(j >= 165); j++) {

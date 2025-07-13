@@ -4,7 +4,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var TMRversion = [2,2,6]; 
+var TMRversion = [2,2,6,1]; 
 /*jshint +W018*/ /*jshint +W086*/ /*jshint +W014*/ /*jshint +W117*/ /* TODO: deal with bouncing options (just change context, don't remove and add) */ /*var document = "";var module = "";var alert = "";var alertify = "";var confirm = "";var prompt = "";*/ /* TODO: Admiral "Lee" Banner, President/Admiral/CAG "Billy" banners*/ /* TODO: Dictator Starbuck, Kat, Anders, Gaeta, Tory */
 /*var document = "";
 let module = "";
@@ -3950,7 +3950,8 @@ function canShrugItOff(){
 
 function canCombatTraining(){
 	if((z.lastDieRoll !== "PLAYER_VS_PLAYER" && z.lastDieRoll !== "HUMAN_VS_DEEP_ONE" && z.lastDieRoll !== "DEEP_ONE_VS_HUMAN" && 
-	    z.lastDieRoll !== "PLAYER_VS_HORROR" && z.lastDieRoll !== "SHOGGOTH_VS_HUMAN" && z.lastDieRoll !== "GRASPING_TENDRIL_VS_HUMAN" )){
+	    z.lastDieRoll !== "PLAYER_VS_HORROR" && z.lastDieRoll !== "SHOGGOTH_VS_HUMAN" && z.lastDieRoll !== "GRASPING_TENDRIL_VS_HUMAN" &&
+		z.lastDieRoll !== "RUFFIAN_VS_DEEP_ONE" && z.lastDieRoll !== "RUFFIAN_VS_HORROR" && z.lastDieRoll !== "RUFFIAN_VS_PLAYER")){
 		return false;
 	}
 	for(let j = 0; !(j>=z.skillCardHands[me].length); j++){
@@ -4210,7 +4211,8 @@ function SPToken(eventName) {
 	}
 	
 	if(eventName === "HUMAN_VS_DEEP_ONE" || eventName === "PLAYER_VS_PLAYER" || eventName === "DEEP_ONE_VS_HUMAN" ||
-	   eventName === "PLAYER_VS_HORROR" || eventName === "GRASPING_TENDRIL_VS_HUMAN" || eventName === "SHOGGOTH_VS_HUMAN"){
+	   eventName === "PLAYER_VS_HORROR" || eventName === "GRASPING_TENDRIL_VS_HUMAN" || eventName === "SHOGGOTH_VS_HUMAN" ||
+	   eventName === "RUFFIAN_VS_DEEP_ONE" || eventName === "RUFFIAN_VS_HORROR" || eventName === "RUFFIAN_VS_PLAYER"){
 		for(let j = 0; !(j>=z.possibleColors.length); j++){
 			if(z.possibleColors[j][STRENGTH]){
 				text += lc("COMBAT_TRAINING_REMINDER")+"\r\n";
@@ -4301,7 +4303,8 @@ function SPTokenBad(eventName, eventParams, roller) {
 			addAlert(lc("BASEBALL_BAT_REMINDER",z.players[itemHolder("Baseball Bat")]));
 		}
 		if(eventName === "HUMAN_VS_DEEP_ONE" || eventName === "PLAYER_VS_PLAYER" || eventName === "DEEP_ONE_VS_HUMAN" ||
-		   eventName === "PLAYER_VS_HORROR" || eventName === "SHOGGOTH_VS_HUMAN" || eventName === "GRASPING_TENDRIL_VS_HUMAN"){
+		   eventName === "PLAYER_VS_HORROR" || eventName === "SHOGGOTH_VS_HUMAN" || eventName === "GRASPING_TENDRIL_VS_HUMAN" ||
+		   eventName === "RUFFIAN_VS_DEEP_ONE" || eventName === "RUFFIAN_VS_HORROR" || eventName === "RUFFIAN_VS_PLAYER"){
 			for(let j = 0; !(j>=z.possibleColors.length); j++){
 				if(z.possibleColors[j][STRENGTH]){
 					addAlert("COMBAT_TRAINING_REMINDER");
@@ -7886,7 +7889,8 @@ function canModifyDieRoll() {
 		return true;
 	}
 	if(z.lastDieRoll === "HUMAN_VS_DEEP_ONE" || z.lastDieRoll === "PLAYER_VS_PLAYER" || z.lastDieRoll === "DEEP_ONE_VS_HUMAN" ||
-	   z.lastDieRoll === "PLAYER_VS_HORROR" || z.lastDieRoll === "SHOGGOTH_VS_HUMAN" || z.lastDieRoll === "GRASPING_TENDRIL_VS_HUMAN"){
+	   z.lastDieRoll === "PLAYER_VS_HORROR" || z.lastDieRoll === "SHOGGOTH_VS_HUMAN" || z.lastDieRoll === "GRASPING_TENDRIL_VS_HUMAN" ||
+	   z.lastDieRoll === "RUFFIAN_VS_DEEP_ONE" || z.lastDieRoll === "RUFFIAN_VS_HORROR" || z.lastDieRoll === "RUFFIAN_VS_PLAYER"){
 		for(let j = 0; !(j>=z.possibleColors.length); j++){
 			if(z.possibleColors[j][STRENGTH]){
 				return true;
@@ -8004,12 +8008,19 @@ function wander(ally){
 
 function doneWithAttack(params){
 	/* attacker, location (if Deep One) or target (if not), weapon, number of attacks left */
-	let player = getPlayerNum(params[0]);
+	let player = -1;
+	let weapon = "";
+	if(params[0] === "Ruffian"){
+		weapon = "Ruffian";
+		player = getPlayerNum(params[0]);
+	} else {
+		player = getPlayerNum(params[0]);
+		weapon = params[2];
+	}
 	let target = params[1];
 	if(d.spaceNames.includes(params[1])){
 		target = "Deep One";
 	}
-	let weapon = params[2];
 	let additionalAttacks = params[3];
 	
 	if(weapon === "Ruffian"){
@@ -9492,7 +9503,7 @@ function processDieRoll() {
 		if(!z.gameOver){
 			doneWithChoiceMythos();
 		}
-	} else if (roll === "HUMAN_VS_DEEP_ONE"){
+	} else if (roll === "HUMAN_VS_DEEP_ONE" || roll === "RUFFIAN_VS_DEEP_ONE"){
 		if(value >= 4){
 			for(let j = 0; !(j>=z.deepOnes.length); j++){
 				if(d.spaceNames[z.deepOnes[j]] === params[1]){
@@ -9507,7 +9518,7 @@ function processDieRoll() {
 		
 		doneWithAttack(params);
 		
-	} else if(roll === "PLAYER_VS_PLAYER"){
+	} else if(roll === "PLAYER_VS_PLAYER" || roll === "RUFFIAN_VS_PLAYER"){
 		
 		if(value >= 6){
 			plainAlert("PLAYER_VS_PLAYER_SUCCESS",params);
@@ -9523,6 +9534,14 @@ function processDieRoll() {
 		if(value >= 6){
 			boldAlert("HORROR_REPELLED",[params[0],params[1]]);
 			addOption(getPlayerNum(params[0]),"Repel a Horror",params,true);
+		} else {
+			plainAlert("No effect.");
+			doneWithAttack(params);
+		}
+	} else if(roll === "RUFFIAN_VS_HORROR"){
+		if(value >= 6){
+			boldAlert("HORROR_REPELLED",[params[0],params[1]]);
+			addOption(getPlayerNum(params[2]),"Repel a Horror",params,true);
 		} else {
 			plainAlert("No effect.");
 			doneWithAttack(params);
@@ -17845,7 +17864,7 @@ function mainMenu() {
 				if(target === "Deep One"){
 					let index = indices[a-1];
 					boldAlert("ATTACK_DEEP_ONE_ALERT",["The Ruffian",d.spaceNames[index]]);
-					NoSPToken("HUMAN_VS_DEEP_ONE",["Ruffian",d.spaceNames[index],"Ruffian",1]);
+					NoSPToken("RUFFIAN_VS_DEEP_ONE",["Ruffian",d.spaceNames[index],z.players[me],1]);
 				} else {
 					let target2 = target;
 					if(horror){
@@ -17854,9 +17873,9 @@ function mainMenu() {
 					boldAlert("ATTACK_ALERT",["The Ruffian",target2]);
 				
 					if(horror){
-						SPTokenBad("PLAYER_VS_HORROR",["Ruffian",target,"Ruffian"]);
+						SPTokenBad("RUFFIAN_VS_HORROR",["Ruffian",target,z.players[me]]);
 					} else {
-						SPTokenBad("PLAYER_VS_PLAYER",["Ruffian",target,"Ruffian"]);
+						SPTokenBad("RUFFIAN_VS_PLAYER",["Ruffian",target,z.players[me]]);
 					}
 				}
 				removeOption(me,ch);
@@ -25231,7 +25250,8 @@ var a1 = "ENDTMRB  [/size][/c] " +
 					addAlert("POCKET_PISTOL_REMAINDER",z.players[z.dieRoller]);
 				}
 				if(eventName === "HUMAN_VS_DEEP_ONE" || eventName === "PLAYER_VS_PLAYER" || eventName === "DEEP_ONE_VS_HUMAN" ||
-				   eventName === "PLAYER_VS_HORROR" || eventName === "SHOGGOTH_VS_HUMAN" || eventName === "GRASPING_TENDRIL_VS_HUMAN"){
+				   eventName === "PLAYER_VS_HORROR" || eventName === "SHOGGOTH_VS_HUMAN" || eventName === "GRASPING_TENDRIL_VS_HUMAN" ||
+				   eventName === "RUFFIAN_VS_DEEP_ONE" || eventName === "RUFFIAN_VS_HORRO" || eventName === "RUFFIAN_VS_PLAYER"){
 					for(let j = 0; !(j>=z.possibleColors.length); j++){
 						if(z.possibleColors[j][STRENGTH]){
 							addAlert("COMBAT_TRAINING_REMINDER");
