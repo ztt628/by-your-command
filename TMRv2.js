@@ -4,7 +4,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var TMRversion = [2,2,6,1]; 
+var TMRversion = [2,2,7]; 
 /*jshint +W018*/ /*jshint +W086*/ /*jshint +W014*/ /*jshint +W117*/ /* TODO: deal with bouncing options (just change context, don't remove and add) */ /*var document = "";var module = "";var alert = "";var alertify = "";var confirm = "";var prompt = "";*/ /* TODO: Admiral "Lee" Banner, President/Admiral/CAG "Billy" banners*/ /* TODO: Dictator Starbuck, Kat, Anders, Gaeta, Tory */
 /*var document = "";
 let module = "";
@@ -26837,7 +26837,7 @@ var a1 = "ENDTMRB  [/size][/c] " +
 					println("PREDICTIVE_ANALYTICS_ANNOUNCEMENT");
 
 					z.phase = 4;
-					playMythos();
+					playMythos(z.turn);
 					let alertText = lc("Played Mythos: ") + lc(d.mythosNames[z.currentMythos]) + ".";
 					if(z.playerLocations[z.turn] !== "Brig" && ((z.turn === me && d.currentPlayerChooses[z.currentMythos] === 1) || (me === z.captain && d.captainChooses[z.currentMythos] === 1) || 
 					   (me === z.keeper && d.keeperChooses[z.currentMythos] === 1) || (d.namedPlayerChooses[z.currentMythos] === z.players[me]))) {
@@ -26946,7 +26946,7 @@ var a1 = "ENDTMRB  [/size][/c] " +
 									addAlert(alertText);
 								}
 								
-								playMythos();
+								playMythos(z.turn);
 								mainMenu();
 							});
 					} else if(interrupts[prompted - 1] === "Self Sacrifice (Pass)") {
@@ -27652,7 +27652,7 @@ var a1 = "ENDTMRB  [/size][/c] " +
 					z.mandatory = blankArrays(z.numPlayers);
 					addAlert("MYTHOS_ANNOUNCE",d.mythosNames[z.mythosDeck[z.mythosDeck.length - 1]]);
 					z.phase = 4;
-					playMythos();
+					playMythos(z.turn);
 					
 					if(!z.finishedMythos && z.playerLocations[z.turn] !== "Brig" && ((z.turn === me && d.currentPlayerChooses[z.currentMythos] === 1) || (me === z.captain && d.captainChooses[z.currentMythos] === 1) || 
 						(me === z.keeper && d.keeperChooses[z.currentMythos] === 1) || (d.namedPlayerChooses[z.currentMythos] === z.players[me]))) {
