@@ -4,7 +4,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var TMRversion = [2,2,7]; 
+var TMRversion = [2,2,8]; 
 /*jshint +W018*/ /*jshint +W086*/ /*jshint +W014*/ /*jshint +W117*/ /* TODO: deal with bouncing options (just change context, don't remove and add) */ /*var document = "";var module = "";var alert = "";var alertify = "";var confirm = "";var prompt = "";*/ /* TODO: Admiral "Lee" Banner, President/Admiral/CAG "Billy" banners*/ /* TODO: Dictator Starbuck, Kat, Anders, Gaeta, Tory */
 /*var document = "";
 let module = "";
@@ -7633,6 +7633,9 @@ function processOR() {
 				decreaseFuel(2);
 			}
 			break;
+		case "Disappearing Belongings":
+			done = decreaseFood(2);
+			break;
 		case "History Repeats":
 			done = decreaseSanity();
 			if(z.spreadMisfortune){
@@ -10193,7 +10196,6 @@ function processBottom() {
 			break;
 		}	
 		case "Food Rationing":
-		case "Disappearing Belongings":
 			done = decreaseFood(2);
 			break;
 		case "Drowned Fears":
