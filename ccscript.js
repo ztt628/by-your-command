@@ -5,7 +5,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(
 if (usernameRE) {
   myUsername = usernameRE[1];
 }
-var CCversion = [1, 1, 4];
+var CCversion = [1, 1, 4, 1];
 /*jshint -W018*/ /*jshint -W086*/ /*jshint -W014*/ /*jshint -W117*/ /*var document = "";var module = "";var alert = "";var alertify = "";var confirm = "";var prompt = "";var window="";*/ /*var document = "";let module = "";let alert = "";  let alertify = "";let confirm = "";let prompt = "";let define = "";let window = "";let setTimeout = "";let Event = "";*/ var z = {};
 var ts = document.getElementsByTagName("textarea");
 var t = ts[ts.length - 1];
@@ -28,6 +28,8 @@ const BUTCHER = 13;
 const BONE_COLLECTOR = 14;
 const DEVIANT = 15;
 const GANGSTER = 16;
+const GNOME = 17;
+const CACKLEJACK = 18;
 const DOOMSAYER = 0;
 const TOYMAKER = 1;
 const ANGEL = 2;
@@ -1634,7 +1636,9 @@ var travellerNames = [
   "Butcher",
   "Bone Collector",
   "Deviant",
-  "Gangster"
+  "Gangster",
+  "Gnome",
+  "Cacklejack",
 ];
 var travellerBanners = [
   "",
