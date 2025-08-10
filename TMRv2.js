@@ -4,7 +4,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var TMRversion = [2,2,9]; 
+var TMRversion = [2,2,9,1]; 
 /*jshint +W018*/ /*jshint +W086*/ /*jshint +W014*/ /*jshint +W117*/ /* TODO: deal with bouncing options (just change context, don't remove and add) */ /*var document = "";var module = "";var alert = "";var alertify = "";var confirm = "";var prompt = "";*/ /* TODO: Admiral "Lee" Banner, President/Admiral/CAG "Billy" banners*/ /* TODO: Dictator Starbuck, Kat, Anders, Gaeta, Tory */
 /*var document = "";
 let module = "";
@@ -2680,7 +2680,7 @@ function damageLocation(loc,damage,context){
 			priority = ["Chapel","Cargo Hold","Captain's Cabin","Bridge","Boiler Room","Galley"];
 			break;
 		case "Captain's Cabin":
-			priority = ["Captain's Cabin","Galley","Chapel","Bridge","Boiler Room","Cargot Hold"];
+			priority = ["Captain's Cabin","Galley","Chapel","Bridge","Boiler Room","Cargo Hold"];
 			break;
 		case "Cargo Hold":
 			priority = ["Cargo Hold","Boiler Room","Galley","Chapel","Captain's Cabin","Bridge"];
