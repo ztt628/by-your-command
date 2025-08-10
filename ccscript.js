@@ -5,7 +5,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(
 if (usernameRE) {
   myUsername = usernameRE[1];
 }
-var CCversion = [1, 1, 1];
+var CCversion = [1, 1, 4];
 /*jshint -W018*/ /*jshint -W086*/ /*jshint -W014*/ /*jshint -W117*/ /*var document = "";var module = "";var alert = "";var alertify = "";var confirm = "";var prompt = "";var window="";*/ /*var document = "";let module = "";let alert = "";  let alertify = "";let confirm = "";let prompt = "";let define = "";let window = "";let setTimeout = "";let Event = "";*/ var z = {};
 var ts = document.getElementsByTagName("textarea");
 var t = ts[ts.length - 1];
@@ -1159,7 +1159,7 @@ function voteToken(vote, done) {
       threshold++;
       threshold /= 2;
     }
-    if (tally * 2 >= numAlive()) {
+    if (tally >= threshold) {
       text += " [PASS] vs. " + threshold;
     } else {
       text += " [FAIL] vs. " + threshold;
