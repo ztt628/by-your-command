@@ -8819,7 +8819,10 @@ function processDieRoll() {
 		}
 	} else if (roll === "Shoggoth Placement"){
 		spawnShoggoth(DECK - 1 + value);
-		activateShoggoth(params);
+		if(activateShoggoth(params)){
+			z.shoggothContext = params;
+			doneWithShoggoth();
+		}
 	} else if (roll === "Grasping Tendril Placement"){
 		if(value >= 5){
 			spawnGraspingTendril(WATER+1);
@@ -8830,6 +8833,7 @@ function processDieRoll() {
 			clearSkillCheck();
 		} else {
 			if(activateGraspingTendril(params)){
+				z.graspingTendrilPlacement = params;
 				doneWithGraspingTendril();
 			}
 		}
@@ -8844,7 +8848,10 @@ function processDieRoll() {
 	} else if(roll === "Drowned Spirit Placement"){
 		let loc = interiorRoll(value);
 		spawnDrownedSpirit(locationIndex(loc));
-		activateDrownedSpirit(params);
+		if(activateDrownedSpirit(params)){
+			z.drownedSpiritContext = params;
+			doneWithDrownedSpirit();
+		}
 	} else if(roll === "Surplus"){
 		switch(value){
 			case 1:
