@@ -4,7 +4,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var BYCversion = [2,6,2]; 
+var BYCversion = [2,6,3]; 
 /*jshint -W018*/ /*jshint -W086*/ /*jshint -W014*/ /*jshint -W117*/ /* TODO: deal with bouncing options (just change context, don't remove and add) */ /*TODO: Major Victory CO */ 
 /*var module = "";var alertify = "";*/
 /*var alert = "";var confirm = "";var prompt = ""; var document = "";*/
@@ -12898,7 +12898,7 @@ function canRevealInfiltration(){
 	if(!z.personalGoals) {
 		return false;
 	}
-	let foundIt = true;
+	let foundIt = false;
 	if(Array.isArray(z.personalGoalsBrutality) && z.personalGoalsBrutality[me] === 67){
 		foundIt = true;
 	}
