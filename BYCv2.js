@@ -4,7 +4,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var BYCversion = [2,6,3]; 
+var BYCversion = [2,6,4]; 
 /*jshint -W018*/ /*jshint -W086*/ /*jshint -W014*/ /*jshint -W117*/ /* TODO: deal with bouncing options (just change context, don't remove and add) */ /*TODO: Major Victory CO */ 
 /*var module = "";var alertify = "";*/
 /*var alert = "";var confirm = "";var prompt = ""; var document = "";*/
@@ -5793,6 +5793,12 @@ function sleeper() {
 			z.loyaltyDeck.push(z.notCylonDeck.pop());
 		}
 		shuffle(z.loyaltyDeck);
+	}
+	if(z.vNoSoloCylon) {
+		// Do not let the last card in the loyalty deck be a YAAC
+		while(isCylonCard(z.loyaltyDeck[0])) { 
+			shuffle(z.loyaltyDeck);
+		}
 	}
 	for(let i2 = 0; !(i2 >= z.players.length) && z.numPlayers + z.boxedPlayers.length > 1; i2++) {
 		let i = (z.turn + i2) % z.numPlayers;
@@ -22535,6 +22541,10 @@ function variantsPrompt() {
 	if(z.exodus && z.numPlayers > 2) {
 		variants.push("Solo Cylon Handicap (Brutality)");
 	}
+	z.vNoSoloCylon = false;
+	if(z.exodus && z.numPlayers > 2){
+		variants.push("No Solo Cylon");
+	}
 	if(z.exodus && z.daybreak && z.destination === "Ionian Nebula") {
 		variants.push("Ionian Earth");
 	}
@@ -22644,6 +22654,9 @@ function variantsPrompt() {
 								break;
 							case "Solo Cylon Handicap (Brutality)":
 								z.vSoloCylonBrutality = true;
+								break;
+							case "No Solo Cylon":
+								z.vNoSoloCylon = true;
 								break;
 							case "Ionian Earth":
 								z.destination = "Ionian Earth";
