@@ -4,7 +4,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var BYCversion = [2,6,5]; 
+var BYCversion = [2,6,5,1]; 
 /*jshint -W018*/ /*jshint -W086*/ /*jshint -W014*/ /*jshint -W117*/ /* TODO: deal with bouncing options (just change context, don't remove and add) */ /*TODO: Major Victory CO */ 
 /*var module = "";var alertify = "";*/
 /*var alert = "";var confirm = "";var prompt = ""; var document = "";*/
@@ -45004,10 +45004,12 @@ function mainMenu() {
 						z.gravityWell = false;
 					}
 					movePlayer(me, prompted);
-					if(z.phase === 1) {
-						endMovement();
-					} else if((me === z.xo1 && !z.razor) || me === z.SoEActor || ch === "Move in Space") {
-						didAction();
+					if(!hasContext(me, "Move", "Meticulous")){
+						if(z.phase === 1) {
+							endMovement();
+						} else if((me === z.xo1 && !z.razor) || me === z.SoEActor || ch === "Move in Space") {
+							didAction();
+						}
 					}
 					removeOption(me, ch);
 					removeOption(me, "Move to Galactica from the Shipyard");
