@@ -4,7 +4,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var BYCversion = [2,6,4]; 
+var BYCversion = [2,6,5]; 
 /*jshint -W018*/ /*jshint -W086*/ /*jshint -W014*/ /*jshint -W117*/ /* TODO: deal with bouncing options (just change context, don't remove and add) */ /*TODO: Major Victory CO */ 
 /*var module = "";var alertify = "";*/
 /*var alert = "";var confirm = "";var prompt = ""; var document = "";*/
@@ -2237,6 +2237,9 @@ function discardRandomSkillCard(player) {
 		z.skillCardDiscards[cardColorID(card)].push(card);
 		reshuffleSkillCardDeck(cardColorID(card));
 		t.value += z.players[player] + " discards " + cardText(card) + " randomly.\r\n";
+		if(player === me){
+			addAlert("You discard " + cardText(card) + " randomly.");
+		}
 		if(z.skillCardHands[player].length === 0) {
 			z.possibleColors[player] = [0, 0, 0, 0, 0];
 			if(z.pegasus || z.daybreak) {
