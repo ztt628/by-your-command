@@ -5,7 +5,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(
 if (usernameRE) {
   myUsername = usernameRE[1];
 }
-var CCversion = [1, 1, 5];
+var CCversion = [1, 1, 5, 1];
 /*jshint -W018*/ /*jshint -W086*/ /*jshint -W014*/ /*jshint -W117*/ /*var document = "";var module = "";var alert = "";var alertify = "";var confirm = "";var prompt = "";var window="";*/ /*var document = "";let module = "";let alert = "";  let alertify = "";let confirm = "";let prompt = "";let define = "";let window = "";let setTimeout = "";let Event = "";*/ var z = {};
 var ts = document.getElementsByTagName("textarea");
 var t = ts[ts.length - 1];
@@ -47,6 +47,9 @@ const STORM_CATCHER = 13;
 const BOOTLEGGER = 14;
 const FERRYMAN = 15;
 const GARDENER = 16; /* the constant gardener */
+const BIG_WIG = 17;
+const TOR = 18;
+const ZENOMANCER = 19;
 const STORYTELLER = 0;
 const NO_CO = -1;
 const UNDECIDED = 0;
@@ -1617,7 +1620,10 @@ var fabledNames = [
   "Storm Catcher",
   "Bootlegger",
   "Ferryman",
-  "Gardener"
+  "Gardener",
+  "Big Wig",
+  "Tor",
+  "Zenomancer",
 ];
 var travellerNames = [
   "error",
@@ -1657,7 +1663,9 @@ var travellerBanners = [
   "6946236",
   "6946237",
   "6946240",
-  "6946241"
+  "6946241",
+  "9247060",
+  "9247061",
 ];
 var fabledBanners = [
   6842021,
@@ -1676,7 +1684,10 @@ var fabledBanners = [
   6840916,
   7739485,
   7739486,
-  7739487
+  7739487,
+  9247064,
+  9247065,
+  9247066
 ];
 function finishSetup() {
   t.value =
@@ -2553,9 +2564,9 @@ function mainMenu() {
           options.push("Change a Traveller into a non-Traveller");
         }
       }
-      options.push("Add a Fabled to the game");
+      options.push("Add a Fabled or Loric to the game");
       if (z.fabled.length > 0) {
-        options.push("Remove a Fabled from the game");
+        options.push("Remove a Fabled or Loric from the game");
       }
       options.push("Temporarily act on behalf of a player");
       options.push("Change the game name");
@@ -3887,7 +3898,7 @@ function mainMenu() {
             });
           }
         );
-      } else if (ch === "Add a Fabled to the game") {
+      } else if (ch === "Add a Fabled or Loric to the game") {
         let fabled = [];
         let promptText = "";
         for (let j = 0; !(j >= fabledNames.length); j++) {
@@ -3897,7 +3908,7 @@ function mainMenu() {
           }
         }
         promptText =
-          "Which Fabled would you like to add to the game? (1-" +
+          "Which Fabled or Loric would you like to add to the game? (1-" +
           fabled.length +
           ")" +
           promptText;
@@ -3918,9 +3929,9 @@ function mainMenu() {
             mainMenu();
           }
         );
-      } else if (ch === "Remove a Fabled from the game") {
+      } else if (ch === "Remove a Fabled or Loric from the game") {
         promptText =
-          "Which Fabled would you like to remove from the game? (1-" +
+          "Which Fabled or Loric would you like to remove from the game? (1-" +
           z.fabled.length +
           ")";
         for (let j = 0; !(j >= z.fabled.length); j++) {
