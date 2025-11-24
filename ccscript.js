@@ -5,7 +5,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(
 if (usernameRE) {
   myUsername = usernameRE[1];
 }
-var CCversion = [1, 1, 4, 1];
+var CCversion = [1, 1, 5];
 /*jshint -W018*/ /*jshint -W086*/ /*jshint -W014*/ /*jshint -W117*/ /*var document = "";var module = "";var alert = "";var alertify = "";var confirm = "";var prompt = "";var window="";*/ /*var document = "";let module = "";let alert = "";  let alertify = "";let confirm = "";let prompt = "";let define = "";let window = "";let setTimeout = "";let Event = "";*/ var z = {};
 var ts = document.getElementsByTagName("textarea");
 var t = ts[ts.length - 1];
@@ -2638,7 +2638,7 @@ function mainMenu() {
 				z.ferryman = true;
 				mainMenu();
 			});
-	  } else if (ch === "[Organ Grinder] Remove a player's vote token"){
+	  } else if (ch === "[Organ Grinder] Remove a dead player's vote token"){
 		  let targets = [];
 		  let promptText = "";
 		  for(let j = 1; !(j>z.numPlayers); j++){
