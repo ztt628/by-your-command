@@ -22588,7 +22588,7 @@ function variantsPrompt() {
 	z.vBrutality = false;
 	variants.push("Brutality");
 	z.vBrutalityPlus = false;
-	if(z.pegasus && (!z.personalGoals || z.daybreak)){
+	if(z.pegasus){
 		variants.push("Brutality Plus");
 	}
 	
@@ -22809,11 +22809,6 @@ function finishSetup(anyVariants, variants, usedVariants) {
 		let index = variants.indexOf("Infiltration Variant");
 		usedVariants[index] = false;
 		z.vInfiltration = false;
-	}
-	if(!z.vBrutality){
-		let index = variants.indexOf("Brutality Plus");
-		usedVariants[index] = false;
-		z.vBrutalityPlus = false;
 	}
 	if(z.vPandemic && z.exodus && z.destination !== "Ionian Nebula" && z.destination !== "Ionian Earth") {
 		let index = variants.indexOf("Exodus Minus CFB Variant");
@@ -24242,7 +24237,7 @@ function gameSetup2() {
 			z.notCylonDeck = z.notCylonDeck.concat([32, 33, 34, 35, 36]);
 		}
 		if(z.personalGoals) {
-			if(z.vBrutalityPlus && (!z.vInfiltration || z.numPlayers !== 7 || z.destination !== "New Caprica")){
+			if(z.vBrutalityPlus && !(z.destination == "New Caprica" && z.vInfiltration && z.numPlayers == 7) && !(z.destination == "New Caprica" && !z.daybreak && z.cylonLeader)){
 				let personalGoals = [24,25,26,27,28,29,30,31,67];
 				shuffle(personalGoals);
 				z.personalGoalsBrutality = [];
