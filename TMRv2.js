@@ -4,7 +4,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var TMRversion = [2,2,10]; 
+var TMRversion = [2,2,11]; 
 /*jshint +W018*/ /*jshint +W086*/ /*jshint +W014*/ /*jshint +W117*/ /* TODO: deal with bouncing options (just change context, don't remove and add) */ /*var document = "";var module = "";var alert = "";var alertify = "";var confirm = "";var prompt = "";*/ /* TODO: Admiral "Lee" Banner, President/Admiral/CAG "Billy" banners*/ /* TODO: Dictator Starbuck, Kat, Anders, Gaeta, Tory */
 /*var document = "";
 let module = "";
@@ -7150,7 +7150,7 @@ function interruptChoices() {
 	   (z.interrupts[player].length === 0 || z.interrupts[player][0].slice(0, 4).toLowerCase() === "pass")) {
 		interrupts.push("Uncanny Fortune");
 	}
-	if(z.feats[player].includes("Self Sacrifice") && (Number.isInteger(z.currentSkillCheck) || z.currentSkillCheck === "Memory of the Deep")) {
+	if(z.feats[player].includes("Self Sacrifice") && z.playerLocations[player] !== "Brig" && (Number.isInteger(z.currentSkillCheck) || z.currentSkillCheck === "Memory of the Deep")) {
 		interrupts.push("Self Sacrifice (Pass)");
 		interrupts.push("Self Sacrifice (Fail)");
 		if(d.partial[z.currentSkillCheck]){
