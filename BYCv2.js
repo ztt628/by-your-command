@@ -4,7 +4,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var BYCversion = [2,6,5,3]; 
+var BYCversion = [2,6,6]; 
 /*jshint -W018*/ /*jshint -W086*/ /*jshint -W014*/ /*jshint -W117*/ /* TODO: deal with bouncing options (just change context, don't remove and add) */ /*TODO: Major Victory CO */ 
 /*var module = "";var alertify = "";*/
 /*var alert = "";var confirm = "";var prompt = ""; var document = "";*/
