@@ -40668,14 +40668,16 @@ function mainMenu() {
 				if(z.morale > maxResource) {
 					population = false;
 					maxResource = z.morale;
-				} else if(z.morale === maxResource) {
+				}
+				if(z.morale === maxResource) {
 					morale = true;
 				}
 				if(z.food > maxResource) {
 					maxResource = z.food;
 					morale = false;
 					population = false;
-				} else if(z.food === maxResource) {
+				}
+				if(z.food === maxResource) {
 					food = true;
 				}
 				if(z.fuel === maxResource) {
