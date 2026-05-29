@@ -1,12 +1,14 @@
-/*[c][size=1] STARTCCA /**/ var myUsername = "";
+/* global module, define, alertify */
+/*eslint no-unused-vars: ["error", { "caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore" }]*/
+var myUsername = "";
 var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(
   document.body.innerHTML
 );
 if (usernameRE) {
   myUsername = usernameRE[1];
 }
-var CCversion = [1, 1, 5, 1];
-/*jshint -W018*/ /*jshint -W086*/ /*jshint -W014*/ /*jshint -W117*/ /*var document = "";var module = "";var alert = "";var alertify = "";var confirm = "";var prompt = "";var window="";*/ /*var document = "";let module = "";let alert = "";  let alertify = "";let confirm = "";let prompt = "";let define = "";let window = "";let setTimeout = "";let Event = "";*/ var z = {};
+var CCversion = [1, 1, 6];
+var z = {};
 var ts = document.getElementsByTagName("textarea");
 var t = ts[ts.length - 1];
 var me = -1;
@@ -14,42 +16,47 @@ var mobile = false;
 var secret = false;
 const THIEF = 1;
 const BUREAUCRAT = 2;
-const GUNSLINGER = 3;
+// const GUNSLINGER = 3;
 const BEGGAR = 4;
-const SCAPEGOAT = 5;
-const APPRENTICE = 6;
+// const SCAPEGOAT = 5;
+// const APPRENTICE = 6;
 const MATRON = 7;
 const JUDGE = 8;
 const VOUDON = 9;
 const BISHOP = 10;
 const BARISTA = 11;
-const HARLOT = 12;
+// const HARLOT = 12;
 const BUTCHER = 13;
 const BONE_COLLECTOR = 14;
 const DEVIANT = 15;
-const GANGSTER = 16;
-const GNOME = 17;
-const CACKLEJACK = 18;
-const DOOMSAYER = 0;
-const TOYMAKER = 1;
-const ANGEL = 2;
-const BUDDHIST = 3;
-const REVOLUTIONARY = 4;
-const HELLS_LIBRARIAN = 5;
-const FIDDLER = 6;
-const FIBBIN = 7;
-const DUCHESS = 8;
-const SENTINEL = 9;
-const SPIRIT_OF_IVORY = 10;
-const DJINN = 11;
-const DEUS_EX_FIASCO = 12;
-const STORM_CATCHER = 13;
-const BOOTLEGGER = 14;
+// const GANGSTER = 16;
+// const GNOME = 17;
+// const CACKLEJACK = 18;
+// const DOOMSAYER = 0;
+// const TOYMAKER = 1;
+// const ANGEL = 2;
+// const BUDDHIST = 3;
+// const REVOLUTIONARY = 4;
+// const HELLS_LIBRARIAN = 5;
+// const FIDDLER = 6;
+// const FIBBIN = 7;
+// const DUCHESS = 8;
+// const SENTINEL = 9;
+// const SPIRIT_OF_IVORY = 10;
+// const DJINN = 11;
+// const DEUS_EX_FIASCO = 12;
+// const STORM_CATCHER = 13;
+// const BOOTLEGGER = 14;
 const FERRYMAN = 15;
-const GARDENER = 16; /* the constant gardener */
-const BIG_WIG = 17;
-const TOR = 18;
-const ZENOMANCER = 19;
+/*const GARDENER = 16;*/ /* the constant gardener */
+// const BIG_WIG = 17;
+// const TOR = 18;
+// const ZENOMANCER = 19;
+// const GOD_OF_UG = 20;
+// const HINDU = 21;
+const KNAVES = 22;
+// const POPE = 23;
+// const VENTRILOQUIST = 24;
 const STORYTELLER = 0;
 const NO_CO = -1;
 const UNDECIDED = 0;
@@ -62,9 +69,9 @@ const INCOMPLETE = 0;
 const PASS = 1;
 const FAIL = 2;
 const TIE = 3;
-function inv() {
-  /* DEDAFF */ return colorText("#F7F7F8", "|");
-}
+// function inv() {
+//   /* DEDAFF */ return colorText("#F7F7F8", "|");
+// }
 /***** ALERTIFY ****/ var lb = String.fromCharCode(60);
 var TRANSITION_FALLBACK_DURATION = 500;
 var hideElement = function (el) {
@@ -228,7 +235,7 @@ function Alertify() {
       let el = document.createElement("div");
       el.className = "alertify hide";
       el.innerHTML = this.build(item);
-      let illegal = item.onOkay;
+      // let illegal = item.onOkay;
       item.onOkay = null;
       let btnOK = el.querySelector(".ok");
       let btnCancel = el.querySelector(".cancel");
@@ -885,30 +892,30 @@ function size(text, pt) {
 function bold(text) {
   return "[b" + "]" + text + "[/" + "b]";
 }
-function spoiler(text) {
-  return "[o" + "]" + text + "[/" + "o]";
-}
+// function spoiler(text) {
+//   return "[o" + "]" + text + "[/" + "o]";
+// }
 function invisible(str) {
   /* F4F4FF */ return "[color=" + "#FFFFFF]" + str + "[/" + "color]";
 }
 function code(text) {
   return "[c" + "]" + text + "[/" + "c]";
 }
-function strikethrough(text) {
-  return "[-" + "]" + text + "[/" + "-]";
-}
+// function strikethrough(text) {
+//   return "[-" + "]" + text + "[/" + "-]";
+// }
 function italics(text) {
   return "[i" + "]" + text + "[/" + "i]";
 }
 function floatleft(text) {
   return "[float" + "left]" + text + "[/float" + "left]";
 }
-function floatright(text) {
-  return "[float" + "right]" + text + "[/float" + "right]";
-}
-function center(text) {
-  return "[cent" + "er]" + text + "[/cent" + "er]";
-}
+// function floatright(text) {
+//   return "[float" + "right]" + text + "[/float" + "right]";
+// }
+// function center(text) {
+//   return "[cent" + "er]" + text + "[/cent" + "er]";
+// }
 function clear() {
   return "[cle" + "ar]";
 }
@@ -943,19 +950,19 @@ function clearQuotes() {
     .replace(qre0, "")
     .replace(qre1, "");
 }
-function versionAtLeast(ver) {
-  for (let j = 0; !(j >= z.version.length) && !(j >= ver.length); j++) {
-    if (ver[j] > z.version[j]) {
-      return false;
-    } else if (z.version[j] > ver[j]) {
-      return true;
-    }
-  }
-  if (ver.length > z.version.length) {
-    return false;
-  }
-  return true;
-}
+// function versionAtLeast(ver) {
+//   for (let j = 0; !(j >= z.version.length) && !(j >= ver.length); j++) {
+//     if (ver[j] > z.version[j]) {
+//       return false;
+//     } else if (z.version[j] > ver[j]) {
+//       return true;
+//     }
+//   }
+//   if (ver.length > z.version.length) {
+//     return false;
+//   }
+//   return true;
+// }
 function versionsAtLeast(ver1, ver2) {
   for (let j = 0; !(j >= ver1.length) && !(j >= ver2.length); j++) {
     if (ver2[j] > ver1[j]) {
@@ -1257,13 +1264,13 @@ function printlnBold(str) {
   try {
     let evt = new Event("input", { bubbles: true, cancelable: true });
     t.dispatchEvent(evt);
-  } catch (err) {}
+  } catch (ignore) {/* I don't care */}
 }
 function escapedGameName() {
   return z.gameName
     .replace(/%/g, "%25")
     .replace(/ /g, "%20")
-    .replace(/\!/g, "%21")
+    .replace(/!/g, "%21")
     .replace(/#/g, "%23")
     .replace(/\$/g, "%24")
     .replace(/&/g, "%26")
@@ -1274,9 +1281,9 @@ function escapedGameName() {
     .replace(/\+/g, "%2B")
     .replace(/,/g, "%2C")
     .replace(/[/]/g, "%2F")
-    .replace(/\:/g, "%3A")
+    .replace(/:/g, "%3A")
     .replace(/;/g, "%3B")
-    .replace(/\=/g, "%3D")
+    .replace(/=/g, "%3D")
     .replace(/\?/g, "%3F")
     .replace(/@/g, "%40")
     .replace(/\[/g, "%5B")
@@ -1284,10 +1291,16 @@ function escapedGameName() {
 }
 
 function escapedPlayerName(j) {
-	return z.usernames[j]
+	let name = "";
+	if(j === -1){
+		name = z.knaveUsername;
+	} else {
+		name = z.usernames[j];
+	}
+	return name
 		.replace(/%/g, "%25")
 		.replace(/ /g, "%20")
-		.replace(/\!/g, "%21")
+		.replace(/!/g, "%21")
 		.replace(/#/g, "%23")
 		.replace(/\$/g, "%24")
 		.replace(/&/g, "%26")
@@ -1298,9 +1311,9 @@ function escapedPlayerName(j) {
 		.replace(/\+/g, "%2B")
 		.replace(/,/g, "%2C")
 		.replace(/[/]/g, "%2F")
-		.replace(/\:/g, "%3A")
+		.replace(/:/g, "%3A")
 		.replace(/;/g, "%3B")
-		.replace(/\=/g, "%3D")
+		.replace(/=/g, "%3D")
 		.replace(/\?/g, "%3F")
 		.replace(/@/g, "%40")
 		.replace(/\[/g, "%5B")
@@ -1308,6 +1321,20 @@ function escapedPlayerName(j) {
 }
 
 function geekMailLink(j) {
+	if(j === -1){
+		return (
+    "[ur" +
+    "l=" +
+    "https://boardgamegeek.com/geekmail/compose?touser=" +
+    escapedPlayerName(j) +
+    "&subject=" +
+    escapedGameName() +
+    "]" +
+    z.knaveName +
+    "[/" +
+    "url]"
+  );
+	}
   return (
     "[ur" +
     "l=" +
@@ -1354,7 +1381,11 @@ function textGameState() {
   }
   let playerReport = "";
   if (z.noAtheist) {
-    report += "\n" + italics("Storyteller: " + geekMailLink(0));
+	if(z.knaves){
+		report += "\n" + italics("Storytellers: " + geekMailLink(0) + " and " + geekMailLink(-1));
+	} else {
+		report += "\n" + italics("Storyteller: " + geekMailLink(0));
+	}
     if (z.day && bishopPresent()) {
       report += " " + bishop();
     }
@@ -1362,7 +1393,11 @@ function textGameState() {
   for (let j = 0; !(j >= z.players.length); j++) {
     if (j === 0) {
       if (!z.noAtheist) {
-        playerReport += italics("Storyteller: " + geekMailLink(j)) + "\n\n";
+		if(z.knaves){
+			playerReport += italics("Storytellers: " + geekMailLink(j)) + " and " + geekMailLink(-1) + "\n\n";
+		} else {
+			playerReport += italics("Storyteller: " + geekMailLink(j)) + "\n\n";
+		}
       }
     } else {
       if (j !== 1) {
@@ -1496,15 +1531,15 @@ function textGameState() {
   report += "[/" + "q]";
   t.value += report;
 }
-function imageO(id) {
-  return "[ima" + "geid=" + id + " original inline]";
-}
-function vspacer() {
-  return imageO(3772031);
-}
-function blankImage() {
-  return imageO(6432956);
-}
+// function imageO(id) {
+//   return "[ima" + "geid=" + id + " original inline]";
+// }
+// function vspacer() {
+//   return imageO(3772031);
+// }
+// function blankImage() {
+//   return imageO(6432956);
+// }
 function gameSetup() {
   /* UTODO: localization prompt */ gameNamePrompt();
 }
@@ -1528,7 +1563,7 @@ function isMobile() {
   try {
     document.createEvent("TouchEvent");
     return true;
-  } catch (e) {
+  } catch (ignore) {
     return false;
   }
 }
@@ -1624,6 +1659,11 @@ var fabledNames = [
   "Big Wig",
   "Tor",
   "Zenomancer",
+  "God of Ug",
+  "Hindu",
+  "Knaves",
+  "Pope",
+  "Ventriloquist"
 ];
 var travellerNames = [
   "error",
@@ -1687,7 +1727,12 @@ var fabledBanners = [
   7739487,
   9247064,
   9247065,
-  9247066
+  9247066,
+  9609328,
+  9609331,
+  9609332,
+  9609333,
+  9609334,
 ];
 function finishSetup() {
   t.value =
@@ -1748,11 +1793,11 @@ function finishSetup() {
   for (let j = 0; !(j > z.numPlayers); j++) {
     z.promptStyle.push(1);
   }
-  let splitted = window.btoa(JSON.stringify(z)).match(/.{1,20}/g);
-  let text = "";
-  while (splitted.length > 0) {
-    text += splitted.shift() + "-";
-  }
+  // let splitted = window.btoa(JSON.stringify(z)).match(/.{1,20}/g);
+  // let text = "";
+  // while (splitted.length > 0) {
+  //   text += splitted.shift() + "-";
+  // }
   z.travellers = [];
   z.dead = [];
   z.voteTokens = [];
@@ -1863,6 +1908,9 @@ if (t === undefined) {
           break;
         }
       }
+	  if(z.knaves && z.knaveUsername.toLowerCase() === myUsername.toLowerCase()){
+		  me = 0;
+	  }
       if (z.allNo === undefined) {
         z.allNo = [];
         for (let j = 0; !(j >= z.players.length); j++) {
@@ -2007,8 +2055,6 @@ function canExile() {
   }
   return true;
 }
-var a2 = "ENDCCA  [/size][/c] " + 
-" [c][size=1] STARTCCB";
 function getVoterNumber(player) {
   if (player === undefined) {
     player = me;
@@ -2659,7 +2705,7 @@ function mainMenu() {
 			  }
 		  }
 		  promptText = "Whose vote token would you like to remove? (1-"+targets.length+")"+promptText;
-		  promptNum(promptText,1>a||a>targets.length,mainMenu,(a)=>{
+		  promptNum(promptText,(a)=>1>a||a>targets.length,mainMenu,(a)=>{
 			  if(z.voteTokens[targets[a-1]] === 1){
 				  boldAlert(z.players[targets[a-1]] + " has spent their vote token");
 			  } else {
@@ -2678,14 +2724,14 @@ function mainMenu() {
               z.players[me] +
                 " will not be using their vote token today, unless otherwise specified."
             );
-            let any = false;
+            // let any = false;
             if (z.votes.length > z.vote && z.voteTypes[z.vote] === EXECUTION) {
               if (
                 !z.voteInProgress ||
                 getVoterNumber(me) > getVoterNumber(z.voter)
               ) {
                 z.votes[z.vote][me] = NO;
-                any = true;
+                // any = true;
               } else if (z.voteInProgress && z.voter === me) {
                 z.votes[z.vote][me] = NO;
                 z.COs[z.vote][me] = NO_CO;
@@ -2695,7 +2741,7 @@ function mainMenu() {
             for (let j = z.vote + 1; !(j >= z.votes.length); j++) {
               if (z.voteTypes[j] === EXECUTION) {
                 z.votes[j][me] = NO;
-                any = true;
+                // any = true;
               }
             }
             showVoteTokens();
@@ -2856,7 +2902,7 @@ function mainMenu() {
             "\nThe Butcher has done this once today already; only do this a second time if their ability is working twice today due to the Barista.\nDo not do it a third time.";
         }
         confirmify(
-          "Confirming you want to make a Butcher make an extra nomination; you should only do this if you have just executed someone.",
+          confirmText,
           mainMenu,
           () => {
             boldAlert("The Butcher may now make an extra nomination.");
@@ -3867,7 +3913,7 @@ function mainMenu() {
             });
           }
         );
-      } else if (ch === "Execute and kill a player") {
+      } /* else if (ch === "Execute and kill a player") {
         let alive = [];
         let promptText = "";
         for (let j = 1; !(j >= z.players.length); j++) {
@@ -3898,7 +3944,7 @@ function mainMenu() {
             });
           }
         );
-      } else if (ch === "Add a Fabled or Loric to the game") {
+      } */else if (ch === "Add a Fabled or Loric to the game") {
         let fabled = [];
         let promptText = "";
         for (let j = 0; !(j >= fabledNames.length); j++) {
@@ -3926,7 +3972,36 @@ function mainMenu() {
             boldAlert(
               "The " + fabledNames[fabled[a - 1]] + " is added to the game."
             );
-            mainMenu();
+			if(fabled[a-1] === KNAVES){
+				z.knaves = true;
+				var knavePrompt = () => {
+				    promptString(
+					  "Enter the BGG username of the second storyteller.",
+					  knavePrompt,
+					  (prompted) => {
+						z.knaveUsername = prompted;
+						promptString(
+						  "If " +
+							z.knaveUsername +
+							" would like to be referred to by a different name, enter that name below.",
+						  () => {
+							z.knaveName = z.knaveUsername;
+							mainMenu();
+						  },
+						  (prompted) => {
+							z.knaveName = prompted;
+							mainMenu();
+						  }
+						);
+					  }
+					);
+				};
+
+        knavePrompt();
+				
+			} else {
+				mainMenu();
+			}
           }
         );
       } else if (ch === "Remove a Fabled or Loric from the game") {
@@ -3947,6 +4022,11 @@ function mainMenu() {
                 fabledNames[z.fabled[a - 1]] +
                 " is removed from the game."
             );
+			if(z.fabled[a-1] === KNAVES){
+				delete z.knaves;
+				delete z.knaveName;
+				delete z.knaveUsername;
+			}
             z.fabled.splice(a - 1, 1);
             mainMenu();
           }
@@ -4222,7 +4302,7 @@ function mainMenu() {
           (a) => 1 > a || a > travellers.length,
           mainMenu,
           (b) => {
-			a = travellers[b];
+			let a = travellers[b];
             boldAlert(z.players[a] + " has left the game.");
             z.players.splice(a, 1);
             z.usernames.splice(a, 1);
