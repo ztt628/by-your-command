@@ -1,3 +1,4 @@
+/*[c][size=1] STARTCCA /**/
 /* global module, define, alertify */
 /*eslint no-unused-vars: ["error", { "caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore" }]*/
 var myUsername = "";
@@ -7,7 +8,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(
 if (usernameRE) {
   myUsername = usernameRE[1];
 }
-var CCversion = [1, 1, 6];
+var CCversion = [1, 1, 6, 1];
 var z = {};
 var ts = document.getElementsByTagName("textarea");
 var t = ts[ts.length - 1];
@@ -2055,6 +2056,8 @@ function canExile() {
   }
   return true;
 }
+/*var a2 = "ENDCCA  [/size][/c] " +
+" [c][size=1] STARTCCB";*/
 function getVoterNumber(player) {
   if (player === undefined) {
     player = me;
