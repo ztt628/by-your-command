@@ -1,7 +1,7 @@
 /*[size=1] STARTQMGA /**/
 /* global module, define, alertify */
 /*eslint no-unused-vars: ["error", { "caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore" }]*/
-var QMGversion = [3,12,1,1];
+var QMGversion = [3,12,1,2];
 var myUsername = "";
 var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.body.innerHTML);
 if(usernameRE){
@@ -12520,6 +12520,9 @@ function mainMenu(){
 					z.step = 2;
 					mainMenu();
 				},mainMenu);
+			} else {
+				addAlert("Error: Unrecognized option.");
+				mainMenu();
 			}
 		},"",true);
 	}
