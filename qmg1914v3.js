@@ -1,12 +1,7 @@
-
 /*[size=1] STARTQMGA /**/
-/*jshint -W104*/
-/*jshint -W018*/
-/*jshint -W119*/
-/*jshint -W086*/
-/*jshint -W014*/
-/*jshint +W117*/
-var QMGversion = [3,12,1];
+/* global module, define, alertify */
+/*eslint no-unused-vars: ["error", { "caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore" }]*/
+var QMGversion = [3,12,1,1];
 var myUsername = "";
 var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.body.innerHTML);
 if(usernameRE){
@@ -20,7 +15,7 @@ var power = "";
 var powerName = "";
 function isMobile() {
   try{ document.createEvent("TouchEvent"); return true; }
-  catch(e){ return false; }
+  catch(ignore){ return false; }
 }
 function clearBackground(){
 	hideElement(alertifyBackground);
@@ -321,7 +316,7 @@ function Alertify() {
 				this.cancelLabel = "CANCEL";
 			}
 			el.innerHTML = this.build(item);
-			let illegal = item.onOkay;
+			// let illegal = item.onOkay;
 			item.onOkay = null;
 			
 
@@ -876,9 +871,9 @@ function promptString(promptText, cancel, user) {
 
 
 
-function error(str){
-	alert(str);
-}
+// function error(str){
+// 	alert(str);
+// }
 
 
 function bold(str) {
@@ -981,9 +976,9 @@ function imageO(id){
 	return "[ima"+"geid="+id+" original inline]";
 }
 
-function imageM(id){
-	return "[ima"+"geid="+id+" medium inline]";
-}
+// function imageM(id){
+// 	return "[ima"+"geid="+id+" medium inline]";
+// }
 
 function plainAlert(str){
 	addAlert(str);
@@ -2873,9 +2868,9 @@ function boardImage(){
 function floatleft(text) {
 	return "[float"+"left]"+text+"[/float"+"left]";
 }
-function floatright(text) {
-	return "[float"+"right]"+text+"[/float"+"right]";
-}
+// function floatright(text) {
+// 	return "[float"+"right]"+text+"[/float"+"right]";
+// }
 function center(text){
 	return "[cent"+"er]"+text+"[/cent"+"er]";
 }	
@@ -3078,7 +3073,7 @@ function postSeed() {
 		});
 
 		t.dispatchEvent(evt);
-	} catch(err){}
+	} catch(ignore){/* I don't care */}
 	
 	clearBackground();
 }  
@@ -3290,7 +3285,7 @@ entente:true
 		});
 
 		t.dispatchEvent(evt);
-	} catch(err) {}
+	} catch(ignore) {/* I don't care */}
 	clearBackground();
 }
 
@@ -4339,13 +4334,11 @@ function startBattle(attacker,target,source){
 		}
 	}
 	if(mustardGas() && z.attacker === "Germany" && !z.mustardGas && provinces[z.target].terrain !== "Sea"){
-		let defendingPowers = [];
 		for(let j = 0; !(j>=z.defenders.length); j++){
 			addOption(2,"[Mustard Gas] Make "+z.countries[z.defenders[j]].power+" discard a prepared card.");
 		}
 	}
 	if(redBaron() && z.attacker === "Germany" && !z.redBaron && provinces[z.target].terrain !== "Sea"){
-		let defendingPowers = [];
 		for(let j = 0; !(j>=z.defenders.length); j++){
 			/* safeguard against Blackjack */
 			if(z.countries[z.defenders[j]].armies.includes(z.target)){
@@ -4633,19 +4626,19 @@ function canBuildNavy(country2){
 	return false;
 }
 
-function versionAtLeast(ver) {
-	for(let j = 0; !(j >= z.version.length) && !(j >= ver.length); j++) {
-		if(ver[j] > z.version[j]) {
-			return false;
-		} else if(z.version[j] > ver[j]) {
-			return true;
-		}
-	}
-	if(ver.length > z.version.length) {
-		return false;
-	}
-	return true;
-}
+// function versionAtLeast(ver) {
+// 	for(let j = 0; !(j >= z.version.length) && !(j >= ver.length); j++) {
+// 		if(ver[j] > z.version[j]) {
+// 			return false;
+// 		} else if(z.version[j] > ver[j]) {
+// 			return true;
+// 		}
+// 	}
+// 	if(ver.length > z.version.length) {
+// 		return false;
+// 	}
+// 	return true;
+// }
 
 function versionsAtLeast(ver1, ver2) {
 	for(let j = 0; !(j >= ver1.length) && !(j >= ver2.length); j++) {
@@ -4989,7 +4982,7 @@ if (seed === "") {
 if(seed!==null){
 	seed = window.atob(seed.replace(/-/g, ""));
 	z = JSON.parse(seed);
-	if(!z.hasOwnProperty("QMGversion")) {
+	if(!Object.prototype.hasOwnProperty.call(z, "QMGversion")) {
 		z.QMGversion = QMGversion;
 		z.version = QMGversion;
 	}
@@ -5007,7 +5000,7 @@ if(seed!==null){
 				meCandidates.push(j);
 			}
 		}
-		if(!z.hasOwnProperty("promptStyle")){
+		if(!Object.prototype.hasOwnProperty.call(z, "promptStyle")){
 			z.promptStyle = [];
 			for(let j = 0; !(j>=5); j++){
 				z.promptStyle.push(1);
@@ -5581,7 +5574,7 @@ function prepareText(id){
 	if(arguments.length > 1){
 		thePower = arguments[1];
 	}
-	let type = cardType(id,thePower);
+	// let type = cardType(id,thePower);
 	switch (thePower) {
 	case "AT":
 		switch (id) {
@@ -6774,7 +6767,7 @@ function canAttrition(){
 	if(!canCountry1 && !canCountry2){
 		return false;
 	}
-	let has = false;
+	// let has = false;
 	for(let j = 0; !(j>=z.prepared[me].length); j++){
 		if(isAttrition(z.prepared[me][j])){
 			if(Array.isArray(prepareSymbol(z.prepared[me][j]))){
@@ -6937,7 +6930,6 @@ function playAttrition(){
 		promptNum(promptText,(a)=>1>a||a>cards.length,reject,(prompted)=>{
 			let card = cards[prompted-1];
 			if (Array.isArray(prepareSymbol(card))){
-				let alertText = "";
 				for(let j = 0; !(j>=5); j++){
 					z.attrition[j]+=prepareSymbol(card)[j];
 				}
@@ -6974,7 +6966,6 @@ function playAttrition(){
 }
 
 function hasStatusInHand(ukonly){
-	let has = false;
 	for(let j = 0; !(j>=z.hands[me].length); j++){
 		if(cardType(z.hands[me][j]) === "Status"){
 			if(ukonly && country(z.hands[me][j]) === "US"){
@@ -6987,7 +6978,6 @@ function hasStatusInHand(ukonly){
 }
 
 function hasEconomicWarfareInHand(){
-	let has = false;
 	for(let j = 0; !(j>=z.hands[me].length); j++){
 		if(cardType(z.hands[me][j]) === "Economic Warfare"){
 			return true;
@@ -7905,6 +7895,7 @@ function playCard(id){
 			} 
 			break;
 		case "Eddie Rickenbacker":
+		{
 			let ok = false;
 			for(let j = 0; !ok && !(j>=z.countries.US.armies.length); j++){
 				let province0 = z.countries.US.armies[j];
@@ -7923,6 +7914,7 @@ function playCard(id){
 				z.options[me].unshift("[Eddie Rickenbacker] Discard a German Status card");
 			}
 			break;
+		}
 		case "American Public Outraged by Zimmermann Telegram":
 			z.options[me].unshift("[American Public Outraged by Zimmermann Telegram] Build a US Navy");
 			z.options[me].unshift("[American Public Outraged by Zimmermann Telegram] Build a US Army");
@@ -7964,7 +7956,6 @@ function playCard(id){
 					cardsFound++;
 				}
 			}
-			let note =
 			boldAlert("Scottish Women's Hospitals: Moving " +cardsFound +" Build Army cards from discard to hand.");
 		break;}
 		case "Redl Blackmailed":
@@ -8056,33 +8047,37 @@ function discardFromHand(){
 
 function draftCard(str){
 	return new Promise((resolve,reject)=>{
-		let foundCard = false;
-		for (let j = 0; !(j >= z.drawDecks[me].length) && !foundCard; j++) {
-			if (cardName(z.drawDecks[me][j]) === str) {
-				z.hands[me].push(z.drawDecks[me][j]);
-				z.drawDecks[me].splice(j, 1);
-				boldAlert("Drafting a " + str + " card.");
-				foundCard = true;
+		try{
+			let foundCard = false;
+			for (let j = 0; !(j >= z.drawDecks[me].length) && !foundCard; j++) {
+				if (cardName(z.drawDecks[me][j]) === str) {
+					z.hands[me].push(z.drawDecks[me][j]);
+					z.drawDecks[me].splice(j, 1);
+					boldAlert("Drafting a " + str + " card.");
+					foundCard = true;
+				}
 			}
-		}
-		shuffle(z.drawDecks[me]);
-		if(z.bottomed !== undefined){
-			z.bottomed[me] = bold("Your draw deck has been reshuffled since the start of the game.");
-		}
-		if(foundCard && (str === "Build Army (France)" || str === "Build Navy (France)" || str === "Land Battle (France)") && z.statuses[me].includes(30)){
-			confirmify("Would you like to use Citizen-Soldiers to immediately prepare this card?",resolve,()=>{
-				t.value += bold("Preparing the "+str+" card using Citizen-Soldiers.")+"\r\n";
-				z.prepared[me].push(z.hands[me].pop());
-				addAlert("You prepare the "+str+" card using Citizen-Soldiers.");
-				resolve();
-			});
+			shuffle(z.drawDecks[me]);
+			if(z.bottomed !== undefined){
+				z.bottomed[me] = bold("Your draw deck has been reshuffled since the start of the game.");
+			}
+			if(foundCard && (str === "Build Army (France)" || str === "Build Navy (France)" || str === "Land Battle (France)") && z.statuses[me].includes(30)){
+				confirmify("Would you like to use Citizen-Soldiers to immediately prepare this card?",resolve,()=>{
+					t.value += bold("Preparing the "+str+" card using Citizen-Soldiers.")+"\r\n";
+					z.prepared[me].push(z.hands[me].pop());
+					addAlert("You prepare the "+str+" card using Citizen-Soldiers.");
+					resolve();
+				});
+					
 				
-			
-		} else {
-			if (!foundCard) {
-				plainAlert("You have no " + str + " cards to draft in your draw deck.");
+			} else {
+				if (!foundCard) {
+					plainAlert("You have no " + str + " cards to draft in your draw deck.");
+				}
+				resolve();
 			}
-			resolve();
+		} catch(ignore){
+			reject();
 		}
 	});
 	
@@ -8778,6 +8773,7 @@ function mainMenu(){
 					}
 					break;
 				case "[Gorlice-Tarnów Offensive] Build a piece in an empty space in or adjacent to Poland":
+					{
 					ok = false;
 					let poss = ["POL"];
 					poss = poss.concat(provinces.POL.neighbors);
@@ -8801,6 +8797,7 @@ function mainMenu(){
 						ok = false;
 					}
 					break;
+				}
 				case "[Lawrence Foments Arab Revolts] Recruit a UK Army in the Middle East":
 					ok = 2 >= z.step && canRecruitArmyIn("UK","MID");
 					break;
@@ -10892,7 +10889,6 @@ function mainMenu(){
 
 							let discard = SLBs[prompted-1];
 							let sources = [];
-							let source = "";
 							for(let j = 0; !(j>=provinces[target].neighbors.length); j++){
 								let neighbor = provinces[target].neighbors[j];
 								if(z.countries.Germany.supply.includes(neighbor)){
@@ -11601,7 +11597,6 @@ function mainMenu(){
 						cards.push(card);
 					}
 				}
-				let counterattackCard = -1;
 				
 				let doCounterattack = (counterattackCard)=>{
 					for(let j = 0; !(j>=5); j++){
@@ -11611,7 +11606,6 @@ function mainMenu(){
 							removeOption("[Difficult Terrain] Discard a card from hand");
 						}
 					}
-					let counterattacker = country(counterattackCard);
 					
 					let doCounterattack2 = (counterattacker)=>{							
 						z.prepared[me].splice(z.prepared[me].indexOf(counterattackCard),1);
@@ -11794,7 +11788,6 @@ function mainMenu(){
 				promptNum(promptText,(a)=>1>a||a>targets.length,mainMenu,(prompted)=>{
 					let target = targets[prompted-1];
 					let sources = [];
-					let source = "";
 					promptText = "";
 					for(let j = 0; !(j>=z.countries[country2].supply.length); j++){
 						if(provinces[target].neighbors.includes(z.countries[country2].supply[j])){
@@ -12302,7 +12295,6 @@ function mainMenu(){
 						promptText += "\n"+ statuses.length + ": "+cardText(z.hands[me][j]);
 					}
 				}
-				let prompting = true;
 				promptText = "Which Economic Warfare would you like to play? (1-"+statuses.length+")" + promptText;
 				promptNum(promptText,(a)=>1>a||a>statuses.length,mainMenu,(prompted)=>{
 					removeOption(ch);
@@ -12315,7 +12307,7 @@ function mainMenu(){
 			|| ch === "[Prussian Military Tradition] Play a Status card" || ch === "[Ninth Army Formed to Defend East Prussia] Play a Status card"
 			|| ch === "[Volunteer Movement] Play a Status card" || ch === "[Landwehr] Play a Status card" || ch === "[The Royal Navy] Play a Status card"
 			|| ch === "[Cambrai] Play a Status card"){
-				ukonly = (ch === "[The Royal Navy] Play a Status card" || ch === "[Cambrai] Play a Status card");
+				let ukonly = (ch === "[The Royal Navy] Play a Status card" || ch === "[Cambrai] Play a Status card");
 				let statuses = [];
 				let promptText = "";
 				for(let j = 0; !(j>=z.hands[me].length); j++){
@@ -12327,7 +12319,6 @@ function mainMenu(){
 						promptText += "\n"+ statuses.length + ": "+cardText(z.hands[me][j]);
 					}
 				}
-				let prompting = true;
 				promptText = "Which status would you like to play? (1-"+statuses.length+")" + promptText;
 				promptNum(promptText,(a)=>1>a||a>statuses.length,mainMenu,(prompted)=>{
 					removeOption(ch);
@@ -12432,7 +12423,7 @@ function mainMenu(){
 							z.step = 1;
 						}
 					}
-					for (j = 0; !(j >= z.downDiscards[me].length) && !foundCard; j++) {
+					for (let j = 0; !(j >= z.downDiscards[me].length) && !foundCard; j++) {
 						if (
 								cardType(z.downDiscards[me][j]) === "Build Army" &&
 								country(z.downDiscards[me][j]) === "UK"
