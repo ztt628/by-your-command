@@ -1,14 +1,16 @@
+/* global module, define, alertify */
+/*eslint no-unused-vars: ["error", { "caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore" }]*/
 /*[c][size=1] STARTBYCA /**/
 var myUsername = "";
 var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.body.innerHTML);
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var BYCversion = [2,6,6]; 
-/*jshint -W018*/ /*jshint -W086*/ /*jshint -W014*/ /*jshint -W117*/ /* TODO: deal with bouncing options (just change context, don't remove and add) */ /*TODO: Major Victory CO */ 
-/*var module = "";var alertify = "";*/
-/*var alert = "";var confirm = "";var prompt = ""; var document = "";*/
-/* TODO: Admiral "Lee" Banner, President/Admiral/CAG "Billy" banners*/ /* TODO: Dictator Starbuck, Kat, Anders, Gaeta, Tory */
+var BYCversion = [2,6,7]; 
+/* TODO: deal with bouncing options (just change context, don't remove and add) */ 
+/*TODO: Major Victory CO */ 
+/* TODO: Admiral "Lee" Banner, President/Admiral/CAG "Billy" banners*/ 
+/* TODO: Dictator Starbuck, Kat, Anders, Gaeta, Tory */
 var d = {
 	"characters": ["Adama", "Apollo", "Baltar", "Boomer", "Chief", "Helo", "Roslin", "Starbuck", "Tigh", "Zarek", 
 				   "Cain", "Dee", "Ellen", "Kat", "Cavil", "Leoben", "Six", 
@@ -399,7 +401,7 @@ function Alertify() {
 			let el = document.createElement("div");
 			el.className = "alertify hide";
 			el.innerHTML = this.build(item);
-			let illegal = item.onOkay;
+			/*let illegal = item.onOkay;*/
 			item.onOkay = null;
 			let btnOK = el.querySelector(".ok");
 			let btnCancel = el.querySelector(".cancel");
@@ -1183,26 +1185,27 @@ function cardName(id) {
 					return "Broadcast Location";
 				}
 			}
-			case 0:
-				if(mod === 34) {
-					return "Negotiation";
-				} else if(mod >= 32) {
-					return "Popular Influence";
-				} else if(mod >= 30) {
-					return "Force Their Hand";
-				} else if(mod === 29) {
-					return "Political Prowess";
-				} else if(mod >= 26) {
-					return "Red Tape";
-				} else if(mod >= 23) {
-					return "Preventative Policy";
-				} else if(mod >= 21) {
-					return "Support the People";
-				} else if(mod >= 14) {
-					return "Investigative Committee";
-				} else {
-					return "Consolidate Power";
-				}
+			break;
+		case 0:
+			if(mod === 34) {
+				return "Negotiation";
+			} else if(mod >= 32) {
+				return "Popular Influence";
+			} else if(mod >= 30) {
+				return "Force Their Hand";
+			} else if(mod === 29) {
+				return "Political Prowess";
+			} else if(mod >= 26) {
+				return "Red Tape";
+			} else if(mod >= 23) {
+				return "Preventative Policy";
+			} else if(mod >= 21) {
+				return "Support the People";
+			} else if(mod >= 14) {
+				return "Investigative Committee";
+			} else {
+				return "Consolidate Power";
+			}
 				case 1:
 					if(mod === 34) {
 						return "Change of Plans";
@@ -3116,8 +3119,8 @@ function endGame(humansWon,noResourceCheck) {
 	}
 	t.value += "\r\n"+bold("Remember to record the outcome of your game on the [ur"+"l=https:"+"//boardgamegeek.com/wiki/page/BSG_PBF]BSG PBF Wiki[/"+"url]!")+"\r\n";
 }
-var a0 = "ENDBYCA  [/size] [/c]" + 
-" [c][size=1] STARTBYCB";
+/*var a0 = "ENDBYCA  [/size] [/c]" +
+" [c][size=1] STARTBYCB";*/
 function resolveCylonAllyQueue() {
 	if(z.cylonAllyQueue.length === 0) {
 		return true;
@@ -3815,7 +3818,7 @@ function difficultyTemplate() {
 	}
 } /* TODO: Calc CO? */ /* TODO: Include played SP in card count here? */
 function SPToken(eventName) {
-	let sanitizedName = eventName.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	let sanitizedName = eventName.replace(/[-[\]/{}()*+?.\\^$|]/g, "\\$&");
 	let qre = new RegExp('\\[q' + bl + '="BYC: Interrupts for ' + sanitizedName + '"\\]((?!(\\[q' + bl + '=|\\[/q\\]))[\\s\\S])*\\[/q\\]', "g");
 	t.value = t.value.replace(qre, "");
 	let text = '[q=' + bl + '"BYC: Interrupts for ' + eventName + '"]\r\n';
@@ -4111,8 +4114,9 @@ function playQuorumCard(pos, peek) {
 					for(let j = 0; !(j >= 2) && z.skillCardHands[player].length > 0; j++) {
 						discardRandomSkillCard(player);
 					}
-					dealSkillCard(player, 5);
-					dealSkillCard(player, 5);
+					let card1 = dealSkillCard(player, 5);
+					let card2 = dealSkillCard(player, 5);
+					addAlert("You draw " + cardText(card1) + " and " + cardText(card2) + ".");
 					plainAlert(z.players[player] + " must increase Food or Fuel by 1.");
 					addOption(player, "Increase a resource", "Unsavory Connections", true);
 				}
@@ -5641,7 +5645,7 @@ function skillCheckToken() {
 			text += "PASS: Impulsive\r\n";
 		} else if(z.players[j] === "Doral" && z.vanity) {
 			text += "PASS: Vanity\r\n";
-		} else if(z.hasOwnProperty("trialWithoutProcess") && z.trialWithoutProcess[j]){
+		} else if(Object.prototype.hasOwnProperty.call(z, "trialWithoutProcess") && z.trialWithoutProcess[j]){
 			text += "PASS: Trial without Process\r\n";
 		} else if(z.tank[j] && z.skillCheckCards[j].length === 0) {
 			text += "TANK\r\n";
@@ -5866,7 +5870,7 @@ function sleeper() {
 } /*TODO: destroyed colonial one in graveyard */ /* TODO: check instances of this for support character for OPGs */
 function characterPresent(name) {
 	for(let i = 0; !(i >= z.players.length); i++) {
-		if(z.players[i ] === name && i !== z.theSympatheticCylon && (isCylonLeader(name) || !z.hasOwnProperty("revealedCylons") || z.revealedCylons[i ] === 0)) {
+		if(z.players[i ] === name && i !== z.theSympatheticCylon && (isCylonLeader(name) || !Object.prototype.hasOwnProperty.call(z, "revealedCylons") || z.revealedCylons[i ] === 0)) {
 			return true;
 		}
 	}
@@ -7789,11 +7793,9 @@ function activateLocation(location, action) {
 		});
 		return;
 	} else if((location === "Press Room" && !z.daybreak) || (location === "President's Office" && z.daybreak)) {
-		dealSkillCard(me, 0);
-		dealSkillCard(me, 0);
-		addAlert("You drew " + cardText(z.skillCardHands[me][z.skillCardHands[me].length - 2]) + " and " + cardText(z.skillCardHands[me][z.skillCardHands[me]
-			.length - 1
-		]) + ".");
+		let card1 = dealSkillCard(me, 0);
+		let card2 = dealSkillCard(me, 0);
+		addAlert("You drew " + cardText(card1) + " and " + cardText(card2) + ".");
 	} else if((location === "President's Office" && !z.daybreak) || (location === "Quorum Chamber" && z.daybreak)) {
 		dealQuorumCard();
 		addAlert("You may now play a Quorum card or draw another.");
@@ -10519,7 +10521,7 @@ function setupNC() {
 	shuffle(z.lockedCivilians);
 	z.civilianPile = [];
 	if(d.destinationNames[z.destinationDiscards[z.destinationDiscards.length-1]] !== "Gas Cloud"){
-		if(z.hasOwnProperty("oldCrisisDiscards")){
+		if(Object.prototype.hasOwnProperty.call(z, "oldCrisisDiscards")){
 			let temp = z.oldCrisisDiscards;
 			z.oldCrisisDiscards = z.crisisDiscards;
 			z.crisisDiscards = temp;
@@ -10947,7 +10949,7 @@ function processDestination() {
 			z.scout = z.admiral;
 			if(z.destination === "New Caprica" && z.distance >= 7){
 				boldAlert("The Admiral looks at the top 3 New Caprica Crisis cards, and may place them on the top or bottom of the deck in any order.");
-				if(z.hasOwnProperty("oldCrisisDiscards")){
+				if(Object.prototype.hasOwnProperty.call(z, "oldCrisisDiscards")){
 					let temp = z.oldCrisisDiscards;
 					z.oldCrisisDiscards = z.crisisDiscards;
 					z.crisisDiscards = temp;
@@ -11043,7 +11045,7 @@ function clearSkillCheck() {
 	if(z.criticalMission) {
 		z.criticalMission = false;
 	}
-	if(z.hasOwnProperty("trialWithoutProcess")){
+	if(Object.prototype.hasOwnProperty.call(z, "trialWithoutProcess")){
 		z.trialWithoutProcess = undefined;
 	}
 	delete z.cylonHatred;
@@ -13350,12 +13352,18 @@ function processOR() {
 		case "Reunite the Fleet":
 		case "Playing with Emotions":
 			if(z.revealedCylons[z.turn] === 1) {
-				dealSkillCard(z.turn, 5);
-				dealSkillCard(z.turn, 5);
+				let card1 = dealSkillCard(z.turn, 5);
+				let card2 = dealSkillCard(z.turn, 5);
+				if(z.turn === me) {
+					addAlert("You draw " + cardText(card1) + " and " + cardText(card2) + ".");
+				}
 			} else {
 				if(promptRandomDiscards(z.turn, 2)) {
-					dealSkillCard(z.turn, 5);
-					dealSkillCard(z.turn, 5);
+					let card1 = dealSkillCard(z.turn, 5);
+					let card2 = dealSkillCard(z.turn, 5);
+					if(z.turn === me) {
+						addAlert("You draw " + cardText(card1) + " and " + cardText(card2) + ".");
+					}
 				} else {
 					done = false;
 					plainAlert("After discarding, " + z.players[z.turn] + " must draw 2 Treachery cards.");
@@ -14552,8 +14560,8 @@ function canModifyDieRoll() {
 	}
 	return false;
 }
-var a1 = "ENDBYCB  [/size][/c] " + 
-" [c][size=1] STARTBYCC";
+/*var a1 = "ENDBYCB  [/size][/c] " + 
+" [c][size=1] STARTBYCC";*/
 
 function processDieRoll() {
 	let value = z.lastDieRollValue + z.lastDieRollModifier;
@@ -16077,7 +16085,10 @@ function processBottom() {
 			break;
 		case "Suspicious Election Results":
 			if(promptRandomDiscards(z.admiral, 1)) {
-				dealSkillCard(z.admiral, 5);
+				let card = dealSkillCard(z.admiral, 5);
+				if(z.admiral === me){
+					addAlert("You draw "+cardText(card)+".");
+				}
 			} else {
 				done = false;
 				addOption(z.admiral, "Draw 1 Treachery", undefined, true);
@@ -16207,11 +16218,15 @@ function processBottom() {
 			decreaseFood();
 			done = decreasePopulation();
 			break;
-		case "Abandon Galactica":
+		case "Abandon Galactica": {
 			decreaseFood();
-			dealSkillCard(z.admiral, 5);
-			dealSkillCard(z.admiral, 5);
+			let card1 = dealSkillCard(z.admiral, 5);
+			let card2 = dealSkillCard(z.admiral, 5);
+			if(z.admiral === me) {
+				addAlert("You draw " + cardText(card1) + " and " + cardText(card2) + ".");
+			}	
 			break;
+		}
 		case "An Ambitious Operation":
 			addAlert("Roll a die.  If 4 or lower, -1 Fuel.");
 			done = false;
@@ -16264,8 +16279,11 @@ function processBottom() {
 				addOption(target, "Draw 2 Treachery", undefined, true);
 				done = false;
 			} else {
-				dealSkillCard(target, 5);
-				dealSkillCard(target, 5);
+				let card1 = dealSkillCard(target, 5);
+				let card2 = dealSkillCard(target, 5);
+				if(target === me) {
+					addAlert("You draw " + cardText(card1) + " and " + cardText(card2) + ".");
+				}
 			}
 			break;
 		}
@@ -16388,6 +16406,7 @@ function processBottom() {
 	if(isSuperCrisis(z.currentCrisis)) {
 		z.superCrisisDiscards.push(z.currentCrisis);
 	}
+	return done;
 }
 
 function validBrigTarget() {
@@ -16656,8 +16675,11 @@ function processTop() {
 			increaseFood();
 			if(decreaseMorale()) {
 				if(promptDiscards(z.admiral, 2)) {
-					dealSkillCard(z.admiral, 5);
-					dealSkillCard(z.admiral, 5);
+					let card1 = dealSkillCard(z.admiral, 5);
+					let card2 = dealSkillCard(z.admiral, 5);
+					if(z.admiral === me) {
+						addAlert("You draw " + cardText(card1) + " and " + cardText(card2) + ".");
+					}
 				} else {
 					plainAlert("After Admiral " + z.players[z.admiral] + " discards, they must draw 2 Treachery cards.");
 					addOption(z.admiral, "Draw 2 Treachery", undefined, true);
@@ -17851,10 +17873,15 @@ function processSkillCheckOutcome(fakeAutoPass) {
 				case 139:	/* Enemy of my Enemy */ 
 					done = decreaseMorale();
 					break;
-				case 152:
-					/* Reactor Critical */ dealSkillCard(z.turn, 5);
-					dealSkillCard(z.turn, 5);
+				case 152: {
+					/* Reactor Critical */ 
+					let card1 = dealSkillCard(z.turn, 5);
+					let card2 = dealSkillCard(z.turn, 5);
+					if(z.turn === me){
+						addAlert("You draw "+cardText(card1)+" and "+cardText(card2)+".");
+					}
 					break;
+				}
 				case 153:
 					/* Rebuild Trust */ if(someoneInBrig()) {
 						boldAlert("Each character in the Brig may move to any location on Galactica.");
@@ -18024,12 +18051,17 @@ function processSkillCheckOutcome(fakeAutoPass) {
 			case 81:	/* Review Galactica's Log */ 
 				done = promptDiscards(z.admiral, 3);
 				break;
-			case 142:
-				/* Give in to Despair */ decreaseFood();
-				dealSkillCard(z.turn, 5);
-				dealSkillCard(z.turn, 5);
-				dealSkillCard(z.turn, 5);
+			case 142: {
+				/* Give in to Despair */ 
+				decreaseFood();
+				let card1 = dealSkillCard(z.turn, 5);
+				let card2 = dealSkillCard(z.turn, 5);
+				let card3 = dealSkillCard(z.turn, 5);
+				if(z.turn === me) {
+					addAlert("You draw " + cardText(card1) + ", " + cardText(card2) + ", and " + cardText(card3) + ".");
+				}
 				break;
+			}
 			case 161:
 				/*Cylon Intruders */ if(boardGalactica()) {
 					boldAlert("A Centurion boards Galactica.");
@@ -18041,20 +18073,30 @@ function processSkillCheckOutcome(fakeAutoPass) {
 				/*Footage Transmitted */ for(let j = 0; !(j >= z.numPlayers); j++) {
 					let k = (z.turn + j) % z.numPlayers;
 					if(z.revealedCylons[k] === 1) {
-						dealSkillCard(k, 5);
-						dealSkillCard(k, 5);
+						let card1 = dealSkillCard(k, 5);
+						let card2 = dealSkillCard(k, 5);
+						if(k === me){
+							addAlert("You draw "+cardText(card1)+" and "+cardText(card2)+".");
+						}
 					}
 				}
 				break;
 			case 176:
-				/* Betrayed From Within */ if(z.revealedCylons[z.turn] === 1) {
+				/* Betrayed From Within */ 
+				if(z.revealedCylons[z.turn] === 1) {
 					/* RULES: can a revealed cylon ignore treachery draws from crises? */
-					dealSkillCard(z.turn, 5);
-					dealSkillCard(z.turn, 5);
+					let card1 = dealSkillCard(z.turn, 5);
+					let card2 = dealSkillCard(z.turn, 5);
+					if(me === z.turn){
+						addAlert("You draw "+cardText(card1)+" and "+cardText(card2)+".");
+					}
 				} else {
 					if(promptRandomDiscards(z.turn, 2)) {
-						dealSkillCard(z.turn, 5);
-						dealSkillCard(z.turn, 5);
+						let card1 = dealSkillCard(z.turn, 5);
+						let card2 = dealSkillCard(z.turn, 5);
+						if(me === z.turn){
+							addAlert("You draw "+cardText(card1)+" and "+cardText(card2)+".");
+						}
 					} else {
 						done = false;
 						plainAlert("After they discard, " + z.players[z.turn] + " must draw 2 Treachery.");
@@ -19126,7 +19168,10 @@ function processSkillCheckOutcome(fakeAutoPass) {
 					addOption(z.turn, "Draw 1 Treachery", undefined, true);
 					plainAlert("Once Lee resolves his Moral Dilemma, he must draw a Treachery.");
 				} else {
-					dealSkillCard(z.turn, 5);
+					let card = dealSkillCard(z.turn, 5);
+					if(z.turn === me) {
+						addAlert("You draw " + cardText(card) + ".");
+					}
 				}
 				break;
 			case 154:
@@ -19261,8 +19306,11 @@ function processSkillCheckOutcome(fakeAutoPass) {
 				/* Footage Transmitted */ for(let j = 0; !(j >= z.numPlayers); j++) {
 					let k = (j + z.turn) % z.numPlayers;
 					if(z.revealedCylons[k] === 1) {
-						dealSkillCard(k, 5);
-						dealSkillCard(k, 5);
+						let card1 = dealSkillCard(k, 5);
+						let card2 = dealSkillCard(k, 5);
+						if(k === me){
+							addAlert("You draw "+cardText(card1)+" and "+cardText(card2)+".");
+						}
 						if(z.superCrisisDeck.length === 0) {
 							plainAlert("Super Crisis Deck entirely depleted.");
 						} else {
@@ -19427,9 +19475,12 @@ function SoEToken() {
 		text += z.players[interruptPlayer] + " - ";
 		if(z.playerLocations[interruptPlayer] === "Stranded on Caprica") {
 			text += "(Stranded)";
-		} else if((interruptPlayer + 1 + z.numPlayers) % z.numPlayers === z.SoEActor && !z.SoEDone) {} else if((interruptPlayer + 2 + z.numPlayers) % z
-			.numPlayers === z.SoEActor && !z.SoEDone && z.playerLocations[(interruptPlayer + 1 + z.numPlayers) % z.numPlayers] === "Stranded on Caprica"
-			) {} else if((interruptPlayer >= z.SoEPlayer && z.SoEActor > interruptPlayer) || (z.SoEPlayer > z.SoEActor && z.SoEActor > interruptPlayer) || (
+		} else if((interruptPlayer + 1 + z.numPlayers) % z.numPlayers === z.SoEActor && !z.SoEDone) {
+			/* deliberately left blank */
+		} else if((interruptPlayer + 2 + z.numPlayers) % z.numPlayers === z.SoEActor && !z.SoEDone && z.playerLocations[(interruptPlayer + 1 + z.numPlayers) % z.numPlayers] === "Stranded on Caprica"
+			) {
+				/* deliberately empty */
+		} else if((interruptPlayer >= z.SoEPlayer && z.SoEActor > interruptPlayer) || (z.SoEPlayer > z.SoEActor && z.SoEActor > interruptPlayer) || (
 				interruptPlayer >= z.SoEPlayer && z.SoEPlayer > z.SoEActor)) {
 			text += "Done";
 		}
@@ -19605,7 +19656,7 @@ function postSeed() {
 		});
 
 		t.dispatchEvent(evt);
-	} catch(err){}
+	} catch(ignore){/* don't care */}
 }
 
 function textGameState(images) {
@@ -20183,9 +20234,9 @@ function imageM(id) {
 	return "[ima" + bl + "geid=" + id + " medium inline]";
 }
 
-function spacer() {
+/*function spacer() {
 	return imageO(3767405);
-}
+}*/
 
 function vspacer() {
 	return imageO(3772031);
@@ -22414,7 +22465,7 @@ function isMobile() {
 	try {
 		document.createEvent("TouchEvent");
 		return true;
-	} catch (e) {
+	} catch (ignore) {
 		return false;
 	}
 }
@@ -23007,7 +23058,7 @@ function finishSetup(anyVariants, variants, usedVariants) {
 		}
 		z.superCrisisDiscards = z.megaVoyageSeed.superCrisisDiscards;
 		
-		if(z.megaVoyageSeed.hasOwnProperty("oldCrisisDiscards") && z.destination === "New Caprica"){
+		if(Object.prototype.hasOwnProperty.call(z.megaVoyageSeed, "oldCrisisDiscards") && z.destination === "New Caprica"){
 			z.oldCrisisDiscards = z.megaVoyageSeed.oldCrisisDiscards;
 			shuffle(z.oldCrisisDiscards);
 			if(z.oldCrisisDiscards.length > 0){
@@ -23038,7 +23089,7 @@ function finishSetup(anyVariants, variants, usedVariants) {
 			cancelable: true,
 		});
 		t.dispatchEvent(evt);
-	} catch(err){}
+	} catch(ignore){/* don't care */}
 	clearBackground();
 }
 
@@ -23723,10 +23774,10 @@ function gameSetup2() {
 	z.galacticaAway = false;
 	z.galacticaReturned = false;
 	z.preCrossroads = (z.destination === "Ionian Nebula" || z.destination === "Ionian Earth");
-	if(!z.hasOwnProperty("colonialOneDestroyed")){
+	if(!Object.prototype.hasOwnProperty.call(z, "colonialOneDestroyed")){
 		z.colonialOneDestroyed = false;
 	}
-	if(!z.hasOwnProperty("pegasusDestroyed")){
+	if(!Object.prototype.hasOwnProperty.call(z, "pegasusDestroyed")){
 		z.pegasusDestroyed = false;
 	}
 	z.hubDestroyed = false;
@@ -23833,7 +23884,7 @@ function gameSetup2() {
 	z.violentOutbursts = false;
 	z.exploitWeakness = false;
 	z.gameOver = false; /* new for v0.3 */
-	if(!z.hasOwnProperty("graveyard")){
+	if(!Object.prototype.hasOwnProperty.call(z, "graveyard")){
 		z.graveyard = [];
 	}
 	z.cylonExecuted = -1;
@@ -24004,7 +24055,7 @@ function gameSetup2() {
 	z.quorumDiscards = [];
 	z.quorumTitles = blankArrays(z.numPlayers);
 	z.superCrisisDeck = [];
-	if(!z.hasOwnProperty("superCrisisDiscards")){
+	if(!Object.prototype.hasOwnProperty.call(z, "superCrisisDiscards")){
 		z.superCrisisDiscards = [];
 	}
 	if(!z.colonialOneDestroyed && !z.superCrisisDiscards.includes(160)){
@@ -24030,7 +24081,7 @@ function gameSetup2() {
 	z.superCrisisHands = blankArrays(z.numPlayers);
 	let CACDeck = [];
 	z.crisisDeck = [];
-	if(!z.hasOwnProperty("crisisDiscards")){
+	if(!Object.prototype.hasOwnProperty.call(z, "crisisDiscards")){
 		z.crisisDiscards = [];
 	}
 	for(let j = 0; !(j >= 70); j++) {
@@ -25149,8 +25200,8 @@ function activateSector(pickedScar) {
 var menuPage = "Default";
 var firstPage = true;
 var reGlobal = new RegExp(/\[size=(1|0)\]\[color=#(F4F4FF|FFFFFF)\](New|BYC) seed: \S+\[\/color\]\[\/size\]/, "g");
-var a2 = "ENDBYCC  [/size][/c] " + 
-" [c][size=1] STARTBYCD";
+/*var a2 = "ENDBYCC  [/size][/c] " + 
+" [c][size=1] STARTBYCD";*/
 if(t === undefined) {
 	window.localStorage.setItem("bycUrgent", "out of context");
 	alert("BYC only works while creating or editing a post on the BGG forums.");
@@ -25184,12 +25235,12 @@ if(t === undefined) {
 	if(seed !== null) {
 		seed = window.atob(seed.replace(/-/g, ""));
 		z = JSON.parse(seed);
-		if(!z.hasOwnProperty("quorumPeek")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "quorumPeek")) {
 			z.quorumPeek = [];
 			z.quorumPeeker = -1;
 			z.negotiation = false;
 		}
-		if(!z.hasOwnProperty("secretMessages")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "secretMessages")) {
 			z.secretMessages = [];
 			for(let j = 0; !(j >= z.numPlayers); j++) {
 				z.secretMessages.push("");
@@ -25219,7 +25270,7 @@ if(t === undefined) {
 			z.exploitWeakness = false;
 			z.gameOver = false;
 		}
-		if(!z.hasOwnProperty("graveyard")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "graveyard")) {
 			z.graveyard = [];
 			z.cylonExecuted = -1;
 			z.humanExecuted = -1;
@@ -25228,7 +25279,7 @@ if(t === undefined) {
 			z.noCylonDetector = false;
 			z.executedCurrentPlayer = false;
 		}
-		if(!z.hasOwnProperty("boxedPlayers")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "boxedPlayers")) {
 			z.boxedPlayers = [];
 			z.preventative = null;
 			z.engineRoom = false;
@@ -25241,10 +25292,10 @@ if(t === undefined) {
 			z.CLexecuted = false;
 			z.mutualAnnihilation = false;
 		}
-		if(!z.hasOwnProperty("establishSanitation")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "establishSanitation")) {
 			z.establishSanitation = false;
 		}
-		if(!z.hasOwnProperty("changeOfPlans")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "changeOfPlans")) {
 			z.changeOfPlans = false;
 			z.crisisOptions = blankArrays(z.numPlayers);
 			z.processedOutcome = false;
@@ -25256,30 +25307,30 @@ if(t === undefined) {
 			}
 			z.forLove = characterPresent("Athena");
 		}
-		if(!z.hasOwnProperty("blindDevotionPause")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "blindDevotionPause")) {
 			z.blindDevotionPause = false;
 			z.humanDelusionPause = false;
 			z.commandAuthorityPause = false;
 			z.changeOfPlansPause = false;
 		}
-		if(!z.hasOwnProperty("tank")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "tank")) {
 			z.tank = [];
 			for(let j = 0; !(j >= z.numPlayers); j++) {
 				z.tank.push(false);
 			}
 		}
-		if(!z.hasOwnProperty("probationPause")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "probationPause")) {
 			z.probationPause = false;
 			z.xo = false;
 		}
-		if(!z.hasOwnProperty("dieRollQueue")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "dieRollQueue")) {
 			z.dieRollQueue = [];
 			z.dieRollModifier = 0;
 			z.lastDieRoll = null;
 			z.lastDieRollModifier = 0;
 			z.lastDieRollValue = 0;
 			z.majorVictory = false;
-			for(let j = 0; !(j >= 6) && z.hasOwnProperty("spaceCivilians"); j++) {
+			for(let j = 0; !(j >= 6) && Object.prototype.hasOwnProperty.call(z, "spaceCivilians"); j++) {
 				for(let k = 0; !(k >= z.spaceCivilians[j].length); k++) {
 					if(z.spaceCivilians[j][k].length === 2) {
 						z.spaceCivilians[j][k].push(false);
@@ -25298,7 +25349,7 @@ if(t === undefined) {
 				z.cagTitle = true;
 			}
 		}
-		if(!z.hasOwnProperty("spToken")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "spToken")) {
 			z.spToken = false;
 			z.stim = null;
 			z.quickFix = false;
@@ -25314,17 +25365,17 @@ if(t === undefined) {
 				z.dieRolls.push(rando);
 			}
 		}
-		if(!z.hasOwnProperty("modificationsPause")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "modificationsPause")) {
 			z.modificationsPause = false;
 			z.noOneGetsLeftBehindPause = false;
 		}
-		if(!z.hasOwnProperty("context")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "context")) {
 			z.context = blankArrays(z.numPlayers);
 			z.promptStyle = [];
 			for(let j = 0; !(j >= z.numPlayers); j++) {
 				z.promptStyle.push(1);
 			}
-			if(z.hasOwnProperty("raiders")) {
+			if(Object.prototype.hasOwnProperty.call(z, "raiders")) {
 				z.raiderActivated = [];
 				for(let j = 0; !(j >= z.raiders.length); j++) {
 					z.raiderActivated.push(0);
@@ -25334,21 +25385,21 @@ if(t === undefined) {
 			z.scarActivated = 0;
 			z.reshuffledSeen = false;
 		}
-		if(!z.hasOwnProperty("version")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "version")) {
 			z.version = BYCversion;
 			z.billyHand = [];
 		}
-		if(!z.hasOwnProperty("phase")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "phase")) {
 			z.phase = 1;
 			z.emergencyAction = true;
 		}
-		if(!z.hasOwnProperty("mandatory")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "mandatory")) {
 			z.mandatory = blankArrays(z.numPlayers);
 			z.buriedMutinies = 0;
 		}
-		if(!z.hasOwnProperty("BYCversion")) {
+		if(!Object.prototype.hasOwnProperty.call(z, "BYCversion")) {
 			z.BYCversion = BYCversion;
-			if(characterPresent("Apollo") && !z.hasOwnProperty("avp")) {
+			if(characterPresent("Apollo") && !Object.prototype.hasOwnProperty.call(z, "avp")) {
 				z.avp = [];
 			}
 		}
@@ -26152,7 +26203,7 @@ function mainMenu() {
 			}
 		}
 		for(let j = 0; !(j>=z.numPlayers) && z.exodus && z.revealedCylons[me] === 0; j++){
-			let DRRE = new RegExp(z.players[j] + " vs\. (Raider|Scar|Heavy Raider|Basestar)","g");
+			let DRRE = new RegExp(z.players[j] + " vs. (Raider|Scar|Heavy Raider|Basestar)","g");
 			if(z.dieRollQueue.length > 0 && DRRE.test(z.dieRollQueue[0])){
 				for(let k = 0; !(k>=z.skillCardHands[me].length); k++){
 					if(cardName(z.skillCardHands[me][k]) === "Best of the Best"){
@@ -30782,7 +30833,7 @@ function mainMenu() {
 				"Confirming you want to reshuffle the Crisis deck from Mining Asteroid.  Make sure Apollo has finished (or passed on) his Alert Viper Pilot.",
 				mainMenu, () => {
 					t.value += "Reshuffled crisis deck.\r\n";
-					addAlert("Crisis deck reshuffled.\n\n\Screw you, Apollo.");
+					addAlert("Crisis deck reshuffled.\n\nScrew you, Apollo.");
 					shuffle(z.crisisDeck);
 					removeFromAll("[Mining Asteroid] Reshuffle the Crisis deck");
 					mainMenu();
@@ -32529,8 +32580,8 @@ function mainMenu() {
 					meetAlly(alliesHere[prompted - 1]);
 				});
 			}
-			let a3 = "ENDBYCD  [/size] [/c]" + 
-			" [c][size=1] STARTBYCE";
+			/*let a3 = "ENDBYCD  [/size] [/c]" + 
+			" [c][size=1] STARTBYCE";*/
 		} else if(ch === "Reveal Stand and Fight (Personal Goal)") {
 			if(Array.isArray(z.personalGoalsBrutality)){
 				let confirmText = "Confirming you want to reveal your Stand and Fight Personal Goal.  Note that this should technically only happen at the end of a turn.";
@@ -37516,7 +37567,7 @@ function mainMenu() {
 						if(z.captainsCabin) {
 							z.captainsCabin = false;
 						}
-						if(z.hasOwnProperty("avp")) {
+						if(Object.prototype.hasOwnProperty.call(z, "avp")) {
 							z.avp = [];
 						}
 						if(z.aggressiveTacticsSkip) {
@@ -41483,8 +41534,8 @@ function mainMenu() {
 					treatment(0);
 				});
 			});
-			let a4 = "ENDBYCE  [/size] [/c]" + 
-			" [c][size=1] STARTBYCF";
+			/*let a4 = "ENDBYCE  [/size] [/c]" + 
+			" [c][size=1] STARTBYCF";*/
 		} else if(ch === "Star Player" || ch === "[Movement] Star Player") {
 			confirmify("Confirming that you want to use your Star Player ability.", mainMenu, () => {
 				if(z.vBrutality) {
