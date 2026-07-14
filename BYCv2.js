@@ -18764,6 +18764,7 @@ function processSkillCheckOutcome(fakeAutoPass) {
 					/*DEE*/
 					done = false;
 					plainAlert("Once Dee's execution is fully resolved, the current player must damage 1 Viper in space (if able).");
+					addOption(z.turn, "Damage a Viper", ["Standoff with Pegasus", 1], true);
 				}
 				break;
 			case 86:
