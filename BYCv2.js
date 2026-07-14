@@ -6,7 +6,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var BYCversion = [2,6,7]; 
+var BYCversion = [2,6,8]; 
 /* TODO: deal with bouncing options (just change context, don't remove and add) */ 
 /*TODO: Major Victory CO */ 
 /* TODO: Admiral "Lee" Banner, President/Admiral/CAG "Billy" banners*/ 
