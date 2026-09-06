@@ -6,7 +6,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var BYCversion = [2,6,8]; 
+var BYCversion = [2,6,9]; 
 /* TODO: deal with bouncing options (just change context, don't remove and add) */ 
 /*TODO: Major Victory CO */ 
 /* TODO: Admiral "Lee" Banner, President/Admiral/CAG "Billy" banners*/ 
@@ -8230,11 +8230,11 @@ function activateLocation(location, action) {
 							alertText += "\n" + cardText(z.skillCardDiscards[prompted - 1][j]);
 						}
 						addAlert(alertText);
-						z.skillCardHands[prompted - 1] = z.skillCardHands[prompted - 1].concat(z.skillCardDiscards[prompted - 1]);
+						z.skillCardDecks[prompted - 1] = z.skillCardDecks[prompted - 1].concat(z.skillCardDiscards[prompted - 1]);
 						z.skillCardDiscards[prompted - 1] = [];
 						let cardsToDraw = 3;
-						if(cardsToDraw > z.skillCardHands[prompted - 1].length) {
-							cardsToDraw = z.skillCardHands[prompted - 1].length;
+						if(cardsToDraw > z.skillCardDecks[prompted - 1].length) {
+							cardsToDraw = z.skillCardDecks[prompted - 1].length;
 						}
 						if(cardsToDraw > 0) {
 							z.possibleColors[me][prompted - 1] = 1;
@@ -8248,8 +8248,8 @@ function activateLocation(location, action) {
 								roslin();
 								mainMenu();
 							} else {
-								let promptText = "Which skill card would you like to take (" + k + " remaining)? (1-" + z.skillCardDecks[prompted -
-									1].length + ")";
+								let promptText = "Which skill card would you like to take (" + k + " remaining)? (1-" + (z.skillCardDecks[prompted -
+									1].length) + ")";
 								for(let j = 0; !(j >= z.skillCardDecks[prompted - 1].length); j++) {
 									promptText += "\n" + (j + 1) + ": " + cardText(z.skillCardDecks[prompted - 1][j]);
 								}
