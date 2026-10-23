@@ -6,7 +6,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var BYCversion = [2,6,10]; 
+var BYCversion = [2,7]; 
 /* TODO: deal with bouncing options (just change context, don't remove and add) */ 
 /*TODO: Major Victory CO */ 
 /* TODO: Admiral "Lee" Banner, President/Admiral/CAG "Billy" banners*/ 
@@ -832,7 +832,7 @@ function tooManyOptions(illegal) {
 	}
 	return legalCount > 13;
 } /* TODO: var waiting, var quit */
-function promptNum(promptText, illegal, cancel, user, newCancel) {
+function promptNum(promptText, illegal, cancel, user, newCancel, noEscape) {
 	if(queuedPrompt.length > 0) {
 		alert("Error! Cannot queue multiple prompts");
 	} else if(alertQueue.length > 0) {
@@ -844,7 +844,7 @@ function promptNum(promptText, illegal, cancel, user, newCancel) {
 		} else {
 			let n = parseInt(prompted);
 			if(isNaN(n) || illegal(n)) {
-				promptNum(promptText, illegal, cancel, user);
+				promptNum(promptText, illegal, cancel, user, newCancel, noEscape);
 			} else {
 				user(n);
 			}
@@ -865,7 +865,7 @@ function promptNum(promptText, illegal, cancel, user, newCancel) {
 				arg.event.preventDefault();
 				let n = parseInt(arg.inputValue);
 				if(arg.buttonClicked === "cancel" || arg.inputValue === null) {
-					if(newCancel !== undefined && !isNaN(n) && !illegal(n)) {
+					if(newCancel !== undefined && !isNaN(n) && !illegal(n) && !noEscape) {
 						confirmify('Are you sure you want to quit?  Whatever option you had typed in the dialog box when you pressed "' + newCancel +
 							'" will not be processed.', mainMenu, cancel, "Yes, Quit", "No, Go Back");
 					} else {
@@ -873,7 +873,7 @@ function promptNum(promptText, illegal, cancel, user, newCancel) {
 					}
 				} else {
 					if(isNaN(n) || illegal(n)) {
-						promptNum(promptText, illegal, cancel, user, newCancel);
+						promptNum(promptText, illegal, cancel, user, newCancel, noEscape);
 					} else {
 						user(n);
 					}
@@ -7865,7 +7865,7 @@ function activateLocation(location, action) {
 				}
 				addAlert(alertText);
 				mainMenu();
-			});
+			},undefined,true);
 		};
 		let superCaprica = function(sc) {
 			if(z.currentCrisis !== null) {
@@ -8265,7 +8265,7 @@ function activateLocation(location, action) {
 								}, (prompted2) => {
 									z.skillCardHands[me].push(z.skillCardDecks[prompted - 1].splice(prompted2 - 1, 1)[0]);
 									datastream(k - 1);
-								});
+								}, undefined, true);
 							}
 						};
 						datastream(cardsToDraw);
@@ -22517,7 +22517,7 @@ function numPlayersPrompt() {
 		} else {
 			objectivePrompt();
 		}
-	});
+	},undefined,true);
 }
 
 function mutineerPrompt() {
@@ -22568,7 +22568,7 @@ function objectivePrompt() {
 			z.destination = options[prompted - 1];
 			addAlert("Objective is " + z.destination + ".");
 			variantsPrompt();
-		});
+		},undefined,true);
 	}
 }
 
@@ -22788,7 +22788,7 @@ function variantsPrompt() {
 			}, (prompted) => {
 				usedVariants[prompted - 1] = !usedVariants[prompted - 1];
 				variantPrompt();
-			});
+			},undefined,true);
 		};
 		variantPrompt();
 	} else {
@@ -23634,7 +23634,7 @@ function pickCharacter() {
 							boldAlert("Apollo starts in an Assault Raptor in Sector 6.");
 						}
 						resolution();
-					});
+					},undefined,true);
 				} else if(z.players[z.players.length - 1] === "Cain" && z.pegasus && !z.pegasusDestroyed) {
 					confirmify("Do you want to start on Command or Pegasus CIC?", () => {
 						boldAlert("Cain starts on Pegasus CIC.");
@@ -23742,8 +23742,8 @@ function pickCharacter() {
 			} else {
 				chooseCharacter(options[charNum - 1],chosenClass);
 			}
-		});
-	});
+		},undefined,true);
+	},undefined,true);
 }
 
 function saveAndQuit() {
@@ -25464,7 +25464,7 @@ if(t === undefined) {
 							t.value += colorText("red", bold("This post did not process properly.  Please try again."));
 							mainMenu();
 						}
-					});
+					},undefined,true);
 				} else {
 					myPlayer = z.boxedPlayers[meBoxed][1];
 					myCharacter = getCharacter(myPlayer);
@@ -30002,7 +30002,7 @@ function mainMenu() {
 						}
 						removeOption(me, ch);
 						mainMenu();
-					});
+					},undefined,true);
 				};
 				promptNum(promptText, (a) => 1 > a || a > z.numPlayers || a - 1 === me || z.skillCardHands[a - 1].length === 0, mainMenu, (
 				prompted) => {
@@ -31074,7 +31074,7 @@ function mainMenu() {
 								z.skillCardDiscards[cardColorID(card)].push(card);
 								refreshSkillDecks();
 								discardFromDestiny(j + 1);
-							});
+							},undefined,true);
 						}
 					};
 					discardFromDestiny(0);
@@ -33223,7 +33223,7 @@ function mainMenu() {
 											refreshSkillDecks();
 											discardFromDestiny(j + 1);
 										});
-								});
+								},undefined, true);
 							}
 						};
 						discardFromDestiny(0);
@@ -34284,7 +34284,7 @@ function mainMenu() {
 													z.possibleColors[me] = [0, 0, 0, 0, 0, 0];
 												}
 												done();
-											});
+											}, undefined, true);
 										}, "Play a card", "Draw a Mutiny");
 									}
 								});
@@ -34889,8 +34889,8 @@ function mainMenu() {
 							}, (prompted2) => {
 								draw[prompted2 - 1]++;
 								confirmDraw(true);
-							});
-						});
+							}, undefined, true);
+						}, undefined, true);
 					});
 				} else {
 					let confirmText = "Confirming you want to draw:\n";
@@ -37976,7 +37976,7 @@ function mainMenu() {
 										}
 									}
 									apolloAlly(sector + 1);
-								});
+								},undefined,true);
 							}
 						}
 					}
@@ -38935,7 +38935,7 @@ function mainMenu() {
 								prompted - 1][2], 1)[0]);
 							mainMenu();
 						}
-					});
+					},undefined,true);
 					
 				}
 			});
@@ -43868,7 +43868,7 @@ function mainMenu() {
 					}
 					addAlert(alertText);
 					mainMenu();
-				});
+				}, undefined, true);
 			}
 		} else if(ch === "Return a duplicate interrupt to hand") {
 			let duplicates = duplicateInterrupts();
@@ -44578,7 +44578,7 @@ function mainMenu() {
 							playIn();
 						}
 					});
-				});
+				},undefined,true);
 			};
 			playIn();
 		} else if(ch === "Activate Scar") {
@@ -45504,7 +45504,7 @@ function mainMenu() {
 				}
 			});
 		}
-	}, cancelLabel);
+	}, cancelLabel, true);
 }
 /*
 var quickQuoteThread = new RegExp("thread/\\d+", "g");
