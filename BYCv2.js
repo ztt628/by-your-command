@@ -6,7 +6,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var BYCversion = [2,6,9]; 
+var BYCversion = [2,6,10]; 
 /* TODO: deal with bouncing options (just change context, don't remove and add) */ 
 /*TODO: Major Victory CO */ 
 /* TODO: Admiral "Lee" Banner, President/Admiral/CAG "Billy" banners*/ 
@@ -43938,6 +43938,8 @@ function mainMenu() {
 									z.reckless = true;
 								}
 							} else if(/Jury Rigged/.test(interrupt) && !z.juryRigged) {
+								z.juryRigged = true;
+								z.difficulty -= 4;
 								if(z.criticalMission && versionAtLeast([2,1,13])){
 									z.reckless++;
 								} else {
