@@ -6,7 +6,7 @@ var usernameRE = /href="\/collection\/user\/(.*?)">Collection/.exec(document.bod
 if(usernameRE){
 	myUsername = usernameRE[1];
 }
-var BYCversion = [2,7]; 
+var BYCversion = [2,7,1]; 
 /* TODO: deal with bouncing options (just change context, don't remove and add) */ 
 /*TODO: Major Victory CO */ 
 /* TODO: Admiral "Lee" Banner, President/Admiral/CAG "Billy" banners*/ 
@@ -9921,7 +9921,7 @@ function processCrossroads(choice) {
 				}
 			} else {
 				addAlert(player + " chose Order a Retreat.");
-				t.value += bold(player + " chose " + colorText("blue", "Order an Retreat")) + ".\r\n";
+				t.value += bold(player + " chose " + colorText("blue", "Order a Retreat")) + ".\r\n";
 				if(z.raiders.length > raidersAway()) {
 					addOption(z.crossroadsPlayer, "Destroy Raider(s)", ["Scanned", 4], true);
 				}
